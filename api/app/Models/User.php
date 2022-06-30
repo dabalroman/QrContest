@@ -25,8 +25,7 @@ final class User extends Authenticable
     protected $fillable = [
         self::NAME,
         self::PASSWORD,
-        self::SCORE,
-        self::IS_ADMIN
+        self::SCORE
     ];
 
     protected $hidden = [

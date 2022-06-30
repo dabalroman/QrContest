@@ -3,9 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticable;
-
-final class Code extends Authenticable
+final class Code extends ApiModel
 {
     public const TABLE_NAME = 'codes';
 
