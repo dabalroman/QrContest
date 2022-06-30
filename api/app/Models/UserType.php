@@ -5,7 +5,6 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * App\Models\UserType
@@ -21,8 +20,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  */
 final class UserType extends ApiModel
 {
-    use HasFactory;
-
     public const TABLE_NAME = 'user_types';
 
     public const TYPE = 'type';
