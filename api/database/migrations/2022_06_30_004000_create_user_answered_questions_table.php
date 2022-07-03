@@ -18,7 +18,7 @@ class CreateUserAnsweredQuestionsTable extends Migration
             $table->foreignId(UserAnsweredQuestion::USER_ID)->references(User::ID)->on(User::TABLE_NAME);
             $table->foreignId(UserAnsweredQuestion::QUESTION_ID)->references(Question::ID)->on(Question::TABLE_NAME);
             $table->integer(UserAnsweredQuestion::ANSWER);
-            $table->boolean(UserAnsweredQuestion::CORRECT);
+            $table->boolean(UserAnsweredQuestion::IS_CORRECT);
             $table->timestamps();
         });
     }

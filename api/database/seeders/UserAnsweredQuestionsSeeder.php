@@ -17,7 +17,7 @@ class UserAnsweredQuestionsSeeder extends Seeder
                     UserAnsweredQuestion::ID => 1,
                     UserAnsweredQuestion::USER_ID => 1,
                     UserAnsweredQuestion::QUESTION_ID => 1,
-                    UserAnsweredQuestion::CORRECT => true,
+                    UserAnsweredQuestion::IS_CORRECT => true,
                     UserAnsweredQuestion::ANSWER => 3
                 ],
             ]

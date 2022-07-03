@@ -20,15 +20,9 @@ class UserResource extends JsonResource
 
         return [
             User::ID => $user->id,
-            User::PARENT_ID => $user->parent_id,
-            User::USER_TYPE_ID => $user->user_type_id,
             User::NAME => $user->name,
-            User::EMAIL => $user->email,
-            User::LEVEL => $user->level,
-            User::EXPERIENCE => $user->experience,
-            User::EXPERIENCE_TO_NEXT_LEVEL => $user->experience_to_next_level,
-            User::IS_PATTERN_SET => $user->is_pattern_set,
-            User::STUDENTS => self::collection($user->students),
+            User::SCORE => $user->score,
+            User::IS_ADMIN => $user->is_admin,
             User::CREATED_AT => $user->created_at,
             User::UPDATED_AT => $user->updated_at
         ];

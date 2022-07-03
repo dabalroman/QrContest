@@ -6,7 +6,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Models\UserType;
 use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,13 +14,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    public const AUTH_TOKEN = 'auth_token';
-
     public function register(Request $request): JsonResponse
     {
         $validationRules = [
             User::NAME => 'required|string|max:255',
-            User::EMAIL => 'required|string|email|max:255|unique:users',
+//            User::EMAIL => 'required|string|email|max:255|unique:users',
             User::PASSWORD => 'required|string|min:8|max:255'
         ];
 
@@ -31,17 +28,17 @@ class AuthController extends Controller
 
         $requestData = $request->all();
         $requestData[User::PASSWORD] = Hash::make($requestData[User::PASSWORD]);
-        $requestData[User::USER_TYPE_ID] = UserType::TYPE_TEACHER;
 
         $user = User::create($requestData);
 
-        return $this->successResponse($this->getResponseData($user, null));
+        return $this->successResponse(new UserResource($user));
     }
 
     public function login(Request $request): JsonResponse
     {
         $validationRules = [
-            User::EMAIL => 'required|string|email|max:255|exists:App\Models\User,email',
+//            User::EMAIL => 'required|string|email|max:255|exists:App\Models\User,email',
+            User::NAME => 'required|string|min:5',
             User::PASSWORD => 'required|string|min:8'
         ];
 
@@ -51,30 +48,17 @@ class AuthController extends Controller
 
         $requestData = $request->all();
 
-        if (!Auth::attempt(['email' => $requestData[User::EMAIL], 'password' => $requestData[User::PASSWORD]])) {
+        if (!Auth::attempt([User::NAME => $requestData[User::NAME], 'password' => $requestData[User::PASSWORD]])) {
             return $this->errorResponse(['Wrong password.'], Response::HTTP_UNAUTHORIZED);
         }
 
-        $user = User::where(User::EMAIL, $request[User::EMAIL])->firstOrFail();
-//        $user->tokens()->delete();
+        $request->session()->regenerate();
 
-        $token = $user->createToken(self::AUTH_TOKEN)->plainTextToken;
-
-        return $this->successResponse($this->getResponseData($user, $token));
+        return $this->successResponse(new UserResource(Auth::getUser()));
     }
 
-    public function changePassword(Request $request, int $id): JsonResponse
+    public function changePassword(Request $request): JsonResponse
     {
-        if ($this->currentUser->id !== $id) {
-            return $this->errorResponse('Cannot update other users.', Response::HTTP_FORBIDDEN);
-        }
-
-        $user = User::find($id);
-
-        if (is_null($user)) {
-            return $this->notFoundResponse();
-        }
-
         $validationRules = [
             User::PASSWORD => 'required|string|max:255|min:8',
             User::NEW_PASSWORD => 'required|string|max:255|min:8',
@@ -86,46 +70,24 @@ class AuthController extends Controller
 
         $requestData = $request->all();
 
-        if (!Hash::check($requestData[User::PASSWORD], $user->password)) {
+        if (!Hash::check($requestData[User::PASSWORD], $this->currentUser->password)) {
             return $this->errorResponse(['Wrong password.'], Response::HTTP_UNAUTHORIZED);
         }
 
-        $user->password = Hash::make($requestData[User::NEW_PASSWORD]);
-        $user->save();
+        $this->currentUser->password = Hash::make($requestData[User::NEW_PASSWORD]);
+        $this->currentUser->save();
+
+        $request->session()->regenerate();
 
         return $this->successResponse();
     }
 
-    public function refresh(): JsonResponse
+    public function logout(Request $request): JsonResponse
     {
-        $this->currentUser->tokens()->delete();
-        $token = $this->currentUser->createToken(self::AUTH_TOKEN)->plainTextToken;
-
-        return $this->successResponse($this->getResponseData($this->currentUser, $token));
-    }
-
-    public function logout(): JsonResponse
-    {
-        $this->currentUser->tokens()->delete();
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return $this->successResponse();
-    }
-
-    private function getResponseData(User $user, ?string $token): array
-    {
-        if (!$token) {
-            return ['user' => new UserResource($user)];
-        }
-
-        return [
-            'user' => new UserResource($user),
-            'access_token' => $token,
-            'expires_in' => ((int)env('TOKEN_EXPIRE_DELAY_MINUTES')) * 60
-        ];
-    }
-
-    public static function getAbilitiesRule(string ...$abilities): string
-    {
-        return 'abilities:' . implode(',', $abilities);
     }
 }
