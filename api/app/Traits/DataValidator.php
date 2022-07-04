@@ -11,14 +11,14 @@ trait DataValidator
     /**
      * @var string|string[]|null
      */
-    public $validationErrors;
+    protected array $validationErrors = [];
 
     protected function validateRequestData(Request $request, array $validationRules): bool
     {
         $requestData = $request->all();
 
-        if (!$this->areProvidedDataKeysSafe($requestData, $validationRules)) {
-            $this->validationErrors = 'Bad request';
+        if (empty($requestData) || !$this->areProvidedDataKeysSafe($requestData, $validationRules)) {
+            $this->validationErrors = ['Only [' . implode(', ', array_keys($validationRules)) . '] keys are allowed.'];
             return false;
         }
 

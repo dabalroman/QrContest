@@ -4,7 +4,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Eloquent;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
 /**
@@ -32,6 +35,8 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Code whereUpdatedAt($value)
  * @method static Builder|Code whereWithQuestion($value)
  * @mixin Eloquent
+ * @property-read Collection|UserCollectedCode[] $collects
+ * @property-read int|null $collects_count
  */
 final class Code extends ApiModel
 {
@@ -43,7 +48,10 @@ final class Code extends ApiModel
     public const POINTS = 'points';
     public const DESCRIPTION = 'description';
     public const IS_ACTIVE = 'is_active';
+    public const IS_COLLECTED = 'is_collected';
     public const WITH_QUESTION = 'with_question';
+
+    public const CHARSET = 'ABCDEFGHJKLMNOPQRSUVXYZabcdefghijkmnopqrsuvxyz0123456789';
 
     protected $fillable = [
         self::NAME,
@@ -60,4 +68,24 @@ final class Code extends ApiModel
         self::IS_ACTIVE => 'bool',
         self::WITH_QUESTION => 'bool',
     ];
+
+    public static function generateRandomData(int $length = 12): string
+    {
+        $output = '';
+
+        try {
+            for ($i = 0; $i < $length; $i++) {
+                $output .= self::CHARSET[random_int(0, strlen(self::CHARSET) - 1)];
+            }
+        } catch (Exception $e) {
+            $output = 'ERROR';
+        }
+
+        return $output;
+    }
+
+    public function collects(): HasMany
+    {
+        return $this->hasMany(UserCollectedCode::class, UserCollectedCode::CODE_ID, self::ID);
+    }
 }

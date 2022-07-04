@@ -8,6 +8,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticable;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -44,6 +45,8 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @method static Builder|User whereScore($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @mixin Eloquent
+ * @property-read Collection|UserCollectedCode[] $collectedCodes
+ * @property-read int|null $collected_codes_count
  */
 final class User extends Authenticable
 {
@@ -77,20 +80,18 @@ final class User extends Authenticable
         self::IS_ADMIN => 'bool'
     ];
 
-//    public function parent(): HasOne
-//    {
-//        return $this->hasOne(__CLASS__, self::ID, self::PARENT_ID);
-//    }
-//
-//    public function students(): HasMany
-//    {
-//        return $this->hasMany(__CLASS__, self::PARENT_ID, self::ID);
-//    }
-//
-//    public function avatar(): HasOne
-//    {
-//        return $this->hasOne(UserAvatar::class, UserAvatar::USER_ID, self::ID);
-//    }
+    public function collectedCodes(): HasMany
+    {
+        return $this->hasMany(UserCollectedCode::class, UserCollectedCode::USER_ID, self::ID);
+    }
+
+    public function updateScore(): void
+    {
+        $this->score =
+            $this->collectedCodes->sum(static fn(UserCollectedCode $userCollectedCode) => $userCollectedCode->score);
+
+        $this->save();
+    }
 
     public function isAdmin(): bool
     {

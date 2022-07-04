@@ -9,7 +9,6 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -38,12 +37,12 @@ class UserController extends Controller
 
     public function update(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
+        $validationRules = [
             User::NAME => 'string|max:255',
-        ]);
+        ];
 
-        if ($validator->fails()) {
-            return $this->errorResponse($validator->errors());
+        if ($this->validateRequestData($request, $validationRules)) {
+            return $this->errorResponse($this->validationErrors);
         }
 
         $requestData = $request->all();

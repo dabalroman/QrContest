@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -26,6 +27,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|UserCollectedCode whereUpdatedAt($value)
  * @method static Builder|UserCollectedCode whereUserId($value)
  * @mixin Eloquent
+ * @property-read Code|null $code
+ * @property-read UserAnsweredQuestion|null $answeredQuestion
+ * @property-read int $score
  */
 final class UserCollectedCode extends ApiModel
 {
@@ -35,6 +39,11 @@ final class UserCollectedCode extends ApiModel
     public const USER_ID = 'user_id';
     public const CODE_ID = 'code_id';
     public const USER_COLLECTED_QUESTION_ID = 'question_id';
+
+    public const CODE = 'code';
+    public const ANSWERED_QUESTION = 'answered_question';
+    public const COLLECTED_AT = 'collected_at';
+    public const SCORE = 'score';
 
     protected $fillable = [
         self::USER_ID,
@@ -46,4 +55,23 @@ final class UserCollectedCode extends ApiModel
         self::UPDATED_AT => 'datetime',
         self::CREATED_AT => 'datetime'
     ];
+
+    public function getScoreAttribute(): int
+    {
+        return $this->code->points + (
+            ($this->answeredQuestion !== null && $this->answeredQuestion->is_correct)
+                ? $this->answeredQuestion->question->points
+                : 0
+            );
+    }
+
+    public function code(): HasOne
+    {
+        return $this->hasOne(Code::class, Code::ID, self::CODE_ID);
+    }
+
+    public function answeredQuestion(): HasOne
+    {
+        return $this->hasOne(UserAnsweredQuestion::class, UserAnsweredQuestion::ID, self::USER_COLLECTED_QUESTION_ID);
+    }
 }

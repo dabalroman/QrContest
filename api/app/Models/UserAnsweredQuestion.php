@@ -5,6 +5,7 @@ namespace App\Models;
 
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -28,6 +29,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|UserAnsweredQuestion whereUpdatedAt($value)
  * @method static Builder|UserAnsweredQuestion whereUserId($value)
  * @mixin Eloquent
+ * @property-read Question|null $question
  */
 final class UserAnsweredQuestion extends ApiModel
 {
@@ -38,6 +40,8 @@ final class UserAnsweredQuestion extends ApiModel
     public const QUESTION_ID = 'question_id';
     public const ANSWER = 'answer';
     public const IS_CORRECT = 'is_correct';
+
+    public const QUESTION = 'question';
 
     protected $fillable = [
         self::USER_ID,
@@ -51,4 +55,9 @@ final class UserAnsweredQuestion extends ApiModel
         self::CREATED_AT => 'datetime',
         self::IS_CORRECT => 'bool'
     ];
+
+    public function question(): HasOne
+    {
+        return $this->hasOne(Question::class, Question::ID, self::QUESTION_ID);
+    }
 }
