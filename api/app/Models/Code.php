@@ -37,6 +37,7 @@ use Illuminate\Support\Carbon;
  * @mixin Eloquent
  * @property-read Collection|UserCollectedCode[] $collects
  * @property-read int|null $collects_count
+ * @property-read string $collectUrl
  */
 final class Code extends ApiModel
 {
@@ -51,7 +52,7 @@ final class Code extends ApiModel
     public const IS_COLLECTED = 'is_collected';
     public const WITH_QUESTION = 'with_question';
 
-    public const CHARSET = 'ABCDEFGHJKLMNOPQRSUVXYZabcdefghijkmnopqrsuvxyz0123456789';
+    public const CHARSET = 'ABCDEFGHIJKLMNOPQRSUVXYZ0123456789';
 
     protected $fillable = [
         self::NAME,
@@ -69,7 +70,7 @@ final class Code extends ApiModel
         self::WITH_QUESTION => 'bool',
     ];
 
-    public static function generateRandomData(int $length = 12): string
+    public static function generateRandomData(int $length = 9): string
     {
         $output = '';
 
@@ -87,5 +88,10 @@ final class Code extends ApiModel
     public function collects(): HasMany
     {
         return $this->hasMany(UserCollectedCode::class, UserCollectedCode::CODE_ID, self::ID);
+    }
+
+    public function getCollectUrlAttribute(): string
+    {
+        return sprintf(env('CODE_COLLECT_URL'), $this->data);
     }
 }

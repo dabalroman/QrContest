@@ -4,11 +4,13 @@ declare(strict_types=1);
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CodeController;
 use App\Http\Controllers\API\CollectedCodeController;
+use App\Http\Controllers\API\TestController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::resource('test', TestController::class);
 
 Route::group(
     ['middleware' => ['auth:sanctum']],
