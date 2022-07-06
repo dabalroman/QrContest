@@ -25,8 +25,7 @@ class CodeResource extends JsonResource
             Code::DATA => $code->data,
             Code::IS_ACTIVE => $code->is_active,
             Code::WITH_QUESTION => $code->with_question,
-            Code::CREATED_AT => $code->created_at,
-            Code::UPDATED_AT => $code->updated_at
+            Code::POINTS => $code->points
         ];
     }
 }

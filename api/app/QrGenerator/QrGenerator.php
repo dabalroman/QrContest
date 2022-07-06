@@ -26,11 +26,11 @@ class QrGenerator
     private function generateQrCode(string $data): string
     {
         $options = new QROptions([
-            'version' => 5,
+            'version' => 4,
             'outputType' => QRCode::OUTPUT_IMAGE_JPG,
             'eccLevel' => QRCode::ECC_M,
             'cssClass' => 'qrcode',
-            'scale' => 24,
+            'scale' => 27,
             'addQuietzone' => false,
         ]);
 

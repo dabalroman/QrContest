@@ -24,7 +24,6 @@ class UserResource extends JsonResource
             User::SCORE => $user->score,
             User::IS_ADMIN => $user->is_admin,
             User::CREATED_AT => $user->created_at,
-            User::UPDATED_AT => $user->updated_at
         ];
     }
 }
