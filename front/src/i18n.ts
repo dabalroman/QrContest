@@ -16,11 +16,23 @@ i18n
         resources: {
             pl: {
                 LoginView: {
-                    'Email address': 'Adres email',
-                    'Invalid email': 'Błędny adres email',
+                    'Log in': 'Zaloguj się',
                     'Login': 'Zaloguj',
-                    'Password is too short': 'Hasło jest za krótkie',
-                    'Password': 'Hasło'
+                    'Nickname': 'Pseudonim',
+                    'Your nickname': 'Twój pseudonim',
+                    'Nickname should be at least 3 characters long.': 'Pseudonim musi mieć co najmniej 3 znaki.',
+                    'Password': 'Hasło',
+                    'Your secret password': 'Twoje tajne hasło',
+                    'Password should be at least 8 characters long.': 'Hasło musi mieć co najmniej 8 znaków.'
+                },
+                RegisterView: {
+                    'Register': 'Zarejestruj się',
+                    'Nickname': 'Pseudonim',
+                    'Your nickname, other users will see this': 'Twój pseudonim - widoczny dla innych graczy',
+                    'Nickname should be at least 3 characters long.': 'Pseudonim musi mieć co najmniej 3 znaki.',
+                    'Password': 'Hasło',
+                    'Your secret password': 'Twoje tajne hasło',
+                    'Password should be at least 8 characters long.': 'Hasło musi mieć co najmniej 8 znaków.'
                 }
             }
         }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Auth;
+use Cookie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,7 @@ class AuthController extends Controller
     public function register(Request $request): JsonResponse
     {
         $validationRules = [
-            User::NAME => 'required|string|max:255',
+            User::NAME => 'required|string|min:3|max:255|unique:users',
 //            User::EMAIL => 'required|string|email|max:255|unique:users',
             User::PASSWORD => 'required|string|min:8|max:255'
         ];
@@ -30,6 +31,8 @@ class AuthController extends Controller
         $requestData[User::PASSWORD] = Hash::make($requestData[User::PASSWORD]);
 
         $user = User::create($requestData);
+        $user->is_admin = false;
+        $user->updateScore();
 
         return $this->successResponse(new UserResource($user));
     }
@@ -84,7 +87,6 @@ class AuthController extends Controller
 
     public function logout(Request $request): JsonResponse
     {
-        Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

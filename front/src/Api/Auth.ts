@@ -5,6 +5,38 @@ import UserModel from '../Model/User/UserModel';
 class Auth {
     private user: UserModel | null = null;
 
+    public restoreSession (): Promise<boolean> {
+        return new Promise((resolve: Function) => {
+            UserModel.getCurrent()
+                .then((user: UserModel) => {
+                    this.user = user;
+                    resolve(true);
+                })
+                .catch(() => resolve(false));
+        });
+    }
+
+    public register (name: string, password: string): Promise<Object | null> {
+        const requestData: Object = {
+            name,
+            password
+        };
+
+        return Bridge.postData(ApiEndpoint.register, requestData)
+            .then((response: any) => {
+                if (response.message !== undefined) {
+                    throw new Error(`[Auth] Register failed with message ${response.message}`);
+                }
+
+                this.user = UserModel.fromData(response.data) as UserModel;
+
+                // eslint-disable-next-line no-console
+                console.log(`[Auth] Logged in as ${this.user.id}`);
+
+                return response;
+            });
+    }
+
     public login (name: string, password: string): Promise<Object | null> {
         const requestData: Object = {
             name,
@@ -20,7 +52,7 @@ class Auth {
                 this.user = UserModel.fromData(response.data) as UserModel;
 
                 // eslint-disable-next-line no-console
-                console.log(`[Auth/Shallow] Logged in as ${this.user.id}`);
+                console.log(`[Auth] Logged in as ${this.user.id}`);
 
                 return response;
             });

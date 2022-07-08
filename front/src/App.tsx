@@ -1,41 +1,49 @@
-import React, { useEffect } from 'react';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { Global, MantineProvider, MantineTheme, MantineThemeOverride } from '@mantine/core';
+import { Route, Routes as Router } from 'react-router-dom';
 import Auth from './Api/Auth';
-import CodeModel from './Model/User/CodeModel';
-import Model from './Model/Model';
+import ThemeHelper from './Utils/ThemeHelper';
+import LoginView from './Views/LoginView';
+import Routes from './Views/routes';
+import DashboardView from './Views/DashboardView';
+import RegisterView from './Views/RegisterView';
 
 function App () {
+    const [sessionActive, setSessionActive] = useState<boolean>(false);
+
     useEffect(() => {
-        console.log('Logging in...');
-
-        Auth.login('admin', 'qwerty123')
-            .then(() => {
-                console.log(Auth.getCurrentUser());
-
-                CodeModel.get(1)
-                    .then((model: Model) => model as CodeModel)
-                    .then((code: CodeModel) => {
-                        console.log(code);
-                    });
-            });
+        Auth.restoreSession()
+            .then((isSessionRestored: boolean) => setSessionActive(isSessionRestored));
     }, []);
 
+    // noinspection TypeScriptValidateTypes
+    const mantineTheme: MantineThemeOverride = {
+        colorScheme: 'dark',
+        primaryColor: 'blue',
+        white: '#DDD',
+        black: '#222'
+    };
+
     return (
-        <div className="App">
-            <header className="App-header">
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <MantineProvider
+            withGlobalStyles
+            withNormalizeCSS
+            theme={mantineTheme}
+        >
+            <Global
+                styles={(theme: MantineTheme) => ({
+                    body: {
+                        ...theme.fn.fontStyles(),
+                        color: ThemeHelper.getTextColor(theme)
+                    }
+                })}
+            />
+            <Router>
+                <Route path={Routes.dashboard} element={<DashboardView/>}/>
+                <Route path={Routes.login} element={<LoginView/>}/>
+                <Route path={Routes.register} element={<RegisterView/>}/>
+            </Router>
+        </MantineProvider>
     );
 }
 
