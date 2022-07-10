@@ -20,10 +20,16 @@ class CollectedCodeResource extends JsonResource
 
         return [
             UserCollectedCode::ID => $collectedCode->id,
-            UserCollectedCode::CODE => new PublicCodeResource($collectedCode->code),
-            UserCollectedCode::ANSWERED_QUESTION => new AnsweredQuestionResource($collectedCode->answeredQuestion),
-            UserCollectedCode::SCORE => $collectedCode->score,
-            UserCollectedCode::COLLECTED_AT => $collectedCode->created_at
+            UserCollectedCode::V_CODE_NAME => $collectedCode->code->name,
+            UserCollectedCode::V_CODE_POINTS => $collectedCode->code->points,
+            UserCollectedCode::V_QUESTION_CURRENT =>
+                isset($collectedCode->question) && $collectedCode->question_answer === null
+                    ? new PublicQuestionResource($collectedCode->question, $collectedCode->question_answers_map)
+                    : null,
+            UserCollectedCode::V_QUESTION_POINTS =>
+                isset($collectedCode->question) ? $collectedCode->question->points : null,
+            UserCollectedCode::V_SCORE => $collectedCode->score,
+            UserCollectedCode::V_COLLECTED_AT => $collectedCode->created_at
         ];
     }
 }

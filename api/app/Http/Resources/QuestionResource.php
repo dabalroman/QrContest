@@ -21,11 +21,10 @@ class QuestionResource extends JsonResource
         return [
             Question::ID => $question->id,
             Question::QUESTION => $question->question,
-            Question::ANSWER_A => $question->answer_a,
-            Question::ANSWER_B => $question->answer_b,
-            Question::ANSWER_C => $question->answer_c,
-            Question::ANSWER_D => $question->answer_d,
-            Question::CORRECT_ANSWER => $question->correct_answer,
+            Question::ANSWER_RIGHT => $question->answer_right,
+            Question::ANSWER_WRONG_X => $question->answer_wrong_x,
+            Question::ANSWER_WRONG_Y => $question->answer_wrong_y,
+            Question::ANSWER_WRONG_Z => $question->answer_wrong_z,
             Question::POINTS => $question->points,
             Question::CREATED_AT => $question->created_at,
             Question::UPDATED_AT => $question->updated_at

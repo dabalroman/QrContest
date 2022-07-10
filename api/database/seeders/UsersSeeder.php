@@ -19,6 +19,9 @@ class UsersSeeder extends Seeder
                     User::NAME => 'admin',
                     User::PASSWORD => Hash::make('qwerty123'),
                     User::SCORE => 0,
+                    User::BRACELET_ID => '4B795D',
+                    User::IS_PUBLIC => true,
+                    User::IS_SUSPENDED => false,
                     User::IS_ADMIN => true
                 ],
                 [
@@ -26,6 +29,9 @@ class UsersSeeder extends Seeder
                     User::NAME => 'Alice',
                     User::PASSWORD => Hash::make('qwerty123'),
                     User::SCORE => 0,
+                    User::BRACELET_ID => 'ASD2W234',
+                    User::IS_PUBLIC => true,
+                    User::IS_SUSPENDED => true,
                     User::IS_ADMIN => false
                 ]
             ]

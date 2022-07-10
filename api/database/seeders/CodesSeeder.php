@@ -26,7 +26,7 @@ class CodesSeeder extends Seeder
                     Code::ID => 2,
                     Code::NAME => 'Plain sight',
                     Code::DATA => 'CODE_SIGHT',
-                    Code::POINTS => 5,
+                    Code::POINTS => 20,
                     Code::DESCRIPTION => 'Easy one, right?',
                     Code::IS_ACTIVE => true,
                     Code::WITH_QUESTION => false
@@ -35,7 +35,7 @@ class CodesSeeder extends Seeder
                     Code::ID => 3,
                     Code::NAME => 'Hidden one',
                     Code::DATA => 'Eg894jD94F',
-                    Code::POINTS => 20,
+                    Code::POINTS => 30,
                     Code::DESCRIPTION => 'Nice one!',
                     Code::IS_ACTIVE => true,
                     Code::WITH_QUESTION => true
@@ -44,7 +44,7 @@ class CodesSeeder extends Seeder
                     Code::ID => 4,
                     Code::NAME => 'Deactivated',
                     Code::DATA => 'AFojf0AEGG',
-                    Code::POINTS => 20,
+                    Code::POINTS => 40,
                     Code::DESCRIPTION => 'Sorry!',
                     Code::IS_ACTIVE => false,
                     Code::WITH_QUESTION => false

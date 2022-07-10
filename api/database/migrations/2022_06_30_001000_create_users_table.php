@@ -15,7 +15,10 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string(User::NAME)->unique();
             $table->string(User::PASSWORD);
+            $table->string(User::BRACELET_ID)->nullable();
             $table->integer(User::SCORE)->default(0);
+            $table->boolean(User::IS_PUBLIC)->default(false);
+            $table->boolean(User::IS_SUSPENDED)->default(false);
             $table->boolean(User::IS_ADMIN)->default(false);
             $table->rememberToken();
             $table->timestamps();

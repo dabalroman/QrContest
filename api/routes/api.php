@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CodeController;
-use App\Http\Controllers\API\CollectedCodeController;
+use App\Http\Controllers\API\CollectCodeController;
 use App\Http\Controllers\API\TestController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +22,6 @@ Route::group(
 
         Route::resource('users', UserController::class);
         Route::resource('codes', CodeController::class);
-        Route::resource('collected_codes', CollectedCodeController::class);
+        Route::resource('collected_codes', CollectCodeController::class);
     }
 );

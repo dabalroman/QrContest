@@ -53,7 +53,7 @@ class CodeController extends Controller
             Code::POINTS => 'int|required'
         ];
 
-        if ($this->validateRequestData($request, $validationRules)) {
+        if (!$this->validateRequestData($request, $validationRules)) {
             return $this->errorResponse($this->validationErrors);
         }
 
@@ -83,7 +83,7 @@ class CodeController extends Controller
             Code::POINTS => 'int'
         ];
 
-        if ($this->validateRequestData($request, $validationRules)) {
+        if (!$this->validateRequestData($request, $validationRules)) {
             return $this->errorResponse($this->validationErrors);
         }
 

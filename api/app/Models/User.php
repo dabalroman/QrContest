@@ -47,6 +47,12 @@ use Laravel\Sanctum\PersonalAccessToken;
  * @mixin Eloquent
  * @property-read Collection|UserCollectedCode[] $collectedCodes
  * @property-read int|null $collected_codes_count
+ * @property string|null $bracelet_id
+ * @property bool $is_public
+ * @property bool $is_suspended
+ * @method static Builder|User whereBraceletId($value)
+ * @method static Builder|User whereIsPublic($value)
+ * @method static Builder|User whereIsSuspended($value)
  */
 final class User extends Authenticable
 {
@@ -58,8 +64,11 @@ final class User extends Authenticable
 
     public const ID = 'id';
     public const NAME = 'name';
+    public const BRACELET_ID = 'bracelet_id';
     public const PASSWORD = 'password';
     public const SCORE = 'score';
+    public const IS_PUBLIC = 'is_public';
+    public const IS_SUSPENDED = 'is_suspended';
     public const IS_ADMIN = 'is_admin';
 
     public const NEW_PASSWORD = 'new_password';
@@ -77,6 +86,8 @@ final class User extends Authenticable
     protected $casts = [
         self::UPDATED_AT => 'datetime',
         self::CREATED_AT => 'datetime',
+        self::IS_PUBLIC => 'bool',
+        self::IS_SUSPENDED => 'bool',
         self::IS_ADMIN => 'bool'
     ];
 
@@ -89,12 +100,15 @@ final class User extends Authenticable
     {
         $this->score =
             $this->collectedCodes->sum(static fn(UserCollectedCode $userCollectedCode) => $userCollectedCode->score);
-
-        $this->save();
     }
 
     public function isAdmin(): bool
     {
         return $this->is_admin;
+    }
+
+    public function isActive(): bool
+    {
+        return !$this->is_suspended;
     }
 }

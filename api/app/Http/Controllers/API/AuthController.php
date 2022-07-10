@@ -19,8 +19,8 @@ class AuthController extends Controller
     {
         $validationRules = [
             User::NAME => 'required|string|min:3|max:255|unique:users',
-//            User::EMAIL => 'required|string|email|max:255|unique:users',
-            User::PASSWORD => 'required|string|min:8|max:255'
+            User::PASSWORD => 'required|string|min:8|max:255',
+            User::BRACELET_ID => 'string'
         ];
 
         if (!$this->validateRequestData($request, $validationRules)) {
@@ -32,7 +32,10 @@ class AuthController extends Controller
 
         $user = User::create($requestData);
         $user->is_admin = false;
+        $user->is_public = false;
+        $user->is_suspended = false;
         $user->updateScore();
+        $user->save();
 
         return $this->successResponse(new UserResource($user));
     }
@@ -40,7 +43,6 @@ class AuthController extends Controller
     public function login(Request $request): JsonResponse
     {
         $validationRules = [
-//            User::EMAIL => 'required|string|email|max:255|exists:App\Models\User,email',
             User::NAME => 'required|string|min:5',
             User::PASSWORD => 'required|string|min:8'
         ];

@@ -41,7 +41,7 @@ class UserController extends Controller
             User::NAME => 'string|max:255',
         ];
 
-        if ($this->validateRequestData($request, $validationRules)) {
+        if (!$this->validateRequestData($request, $validationRules)) {
             return $this->errorResponse($this->validationErrors);
         }
 

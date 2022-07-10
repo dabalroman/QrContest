@@ -14,11 +14,10 @@ class CreateQuestionsTable extends Migration
         Schema::create(Question::TABLE_NAME, static function (Blueprint $table) {
             $table->id();
             $table->string(Question::QUESTION);
-            $table->string(Question::ANSWER_A);
-            $table->string(Question::ANSWER_B);
-            $table->string(Question::ANSWER_C);
-            $table->string(Question::ANSWER_D);
-            $table->integer(Question::CORRECT_ANSWER);
+            $table->string(Question::ANSWER_RIGHT);
+            $table->string(Question::ANSWER_WRONG_X);
+            $table->string(Question::ANSWER_WRONG_Y);
+            $table->string(Question::ANSWER_WRONG_Z);
             $table->integer(Question::POINTS);
             $table->timestamps();
         });

@@ -38,6 +38,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection|UserCollectedCode[] $collects
  * @property-read int|null $collects_count
  * @property-read string $collectUrl
+ * @property-read string $collect_url
  */
 final class Code extends ApiModel
 {
@@ -49,7 +50,6 @@ final class Code extends ApiModel
     public const POINTS = 'points';
     public const DESCRIPTION = 'description';
     public const IS_ACTIVE = 'is_active';
-    public const IS_COLLECTED = 'is_collected';
     public const WITH_QUESTION = 'with_question';
 
     public const CHARSET = 'ABCDEFGHIJKLMNOPQRSUVXYZ0123456789';

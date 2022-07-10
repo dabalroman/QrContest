@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
             UsersSeeder::class,
             CodesSeeder::class,
             QuestionsSeeder::class,
-            UserAnsweredQuestionsSeeder::class,
             UserCollectedCodesSeeder::class
         ]);
     }

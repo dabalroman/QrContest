@@ -22,6 +22,9 @@ class UserResource extends JsonResource
             User::ID => $user->id,
             User::NAME => $user->name,
             User::SCORE => $user->score,
+            User::BRACELET_ID => $user->bracelet_id,
+            User::IS_PUBLIC => $user->is_public,
+            User::IS_SUSPENDED => $user->is_suspended,
             User::IS_ADMIN => $user->is_admin,
             User::CREATED_AT => $user->created_at,
         ];
