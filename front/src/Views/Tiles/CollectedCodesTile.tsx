@@ -87,25 +87,22 @@ export default function CollectedCodesTile () {
 
     const decorateQuestionPoints = (points: number | null): JSX.Element | null => {
         if (points === null) {
-            // noinspection TypeScriptValidateJSTypes
             return <CircleMinus className={ThemeHelper.classes(classes.icon, classes.iconBlue)}/>;
         }
 
         if (points === 0) {
-            // noinspection TypeScriptValidateJSTypes
             return <CircleX className={ThemeHelper.classes(classes.icon, classes.iconRed)}/>;
         }
 
-        // noinspection TypeScriptValidateJSTypes
         return <CircleCheck className={ThemeHelper.classes(classes.icon, classes.iconGreen)}/>;
     };
 
     const tableContents: JSX.Element[] | null =
         collectedCodes?.map((code: CollectedCodeModel) => (
             <tr key={code.id}>
-                <td className={classes.iconContainer}>{decorateQuestionPoints(code.questionPoints)}</td>
+                <td className={classes.iconContainer as string}>{decorateQuestionPoints(code.questionPoints)}</td>
                 <td>{code.codeName}</td>
-                <td>{code.score} pkt.</td>
+                <td>+{code.score} pkt.</td>
                 <td>{filterTimeHoursMinutes(code.collectedAt)}</td>
             </tr>
         )) ?? null;
@@ -116,7 +113,7 @@ export default function CollectedCodesTile () {
                 <Table className={classes.table}>
                     <thead>
                         <tr>
-                            <th className={classes.questionRow}>#</th>
+                            <th className={classes.questionRow as string}>#</th>
                             <th>Nazwa</th>
                             <th>Punkty</th>
                             <th>Data</th>

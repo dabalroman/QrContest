@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { Button, createStyles, Loader, MantineTheme } from '@mantine/core';
+import { Button, createStyles, MantineTheme } from '@mantine/core';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import Auth from '../Api/Auth';
 import Routes from './routes';
 import UserModel from '../Model/User/UserModel';
 import ThemeHelper from '../Utils/ThemeHelper';
-import InlineLoader from '../Components/InlineLoader';
 import { TileClass } from './Style';
 import CollectedCodesTile from './Tiles/CollectedCodesTile';
+import Navbar from '../Components/Navbar';
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const useStyles =
@@ -48,9 +48,7 @@ export default function DashboardView (): JSX.Element {
 
     return (
         <div className="App">
-            <div className={classes.navbar}>
-                <span>{user.name}</span>
-            </div>
+            <Navbar/>
             <div className={ThemeHelper.classes(classes.tile, classes.score)}>
                 <h1>{user.score} pkt.</h1>
                 Ilość zgromadzonych punktów
@@ -63,13 +61,16 @@ export default function DashboardView (): JSX.Element {
                 <h1>Ranking</h1>
             </div>
             <CollectedCodesTile/>
-            <Button onClick={() => {
-                Auth.logout()
-                    .then(() => navigate(Routes.login));
-            }}
-            >
-                Logout
-            </Button>
+            <div className={ThemeHelper.classes(classes.tile)}>
+                <h1>Inne</h1>
+                <Button onClick={() => {
+                    Auth.logout()
+                        .then(() => navigate(Routes.login));
+                }}
+                >
+                    Wyloguj
+                </Button>
+            </div>
         </div>
     );
 }
