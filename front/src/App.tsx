@@ -8,6 +8,7 @@ import Routes from './Views/routes';
 import DashboardView from './Views/DashboardView';
 import RegisterView from './Views/RegisterView';
 import RequireSession from './Views/Middleware/RequireSession';
+import CollectCodeView from './Views/CollectCodeView/CollectCodeView';
 
 function App () {
     const navigate: NavigateFunction = useNavigate();
@@ -22,9 +23,14 @@ function App () {
                 setSessionActive(isSessionRestored);
                 setLoading(false);
 
+                const onLoginOrRegisterView: boolean =
+                    location.pathname === Routes.login || location.pathname === Routes.register;
+
                 if (isSessionRestored) {
-                    navigate(Routes.dashboard);
-                } else if (!(location.pathname === Routes.login || location.pathname === Routes.register)) {
+                    if (onLoginOrRegisterView) {
+                        navigate(Routes.dashboard);
+                    }
+                } else if (!onLoginOrRegisterView) {
                     navigate(Routes.login);
                 }
             });
@@ -72,8 +78,10 @@ function App () {
 
             <Router>
                 <Route path={Routes.dashboard} element={<RequireSession><DashboardView/></RequireSession>}/>
+                <Route path={Routes.code} element={<RequireSession><CollectCodeView/></RequireSession>}/>
                 <Route path={Routes.login} element={<LoginView/>}/>
                 <Route path={Routes.register} element={<RegisterView/>}/>
+                <Route path="*" element={<p>404</p>}/>
             </Router>
         </MantineProvider>
     );

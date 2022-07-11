@@ -1,7 +1,8 @@
 enum Routes {
     login = '/',
     register = '/register',
-    dashboard = '/dashboard'
+    dashboard = '/dashboard',
+    code = '/code/:code'
 }
 
 export default Routes;

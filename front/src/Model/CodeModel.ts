@@ -22,6 +22,8 @@ export default class CodeModel extends Model {
     withQuestion: boolean = false;
     points: number = 0;
 
+    public static dataRegex: RegExp = /^[\w\d]{3,}$/;
+
     constructor (name: string = '') {
         super();
 

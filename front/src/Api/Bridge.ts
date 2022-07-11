@@ -1,4 +1,5 @@
 import { ApiEndpoint, baseApiUrl } from './ApiUrls';
+import ApiResponseError from './ApiResponseError';
 
 export enum BridgeRequestMethod {
     GET = 'get',
@@ -121,7 +122,7 @@ export default class Bridge {
 
     private static handleErrors (response: Response): Response {
         if (!response.ok) {
-            throw Error(`${response.status}: Request failed with ${response.statusText}`);
+            throw new ApiResponseError(response);
         }
 
         return response;

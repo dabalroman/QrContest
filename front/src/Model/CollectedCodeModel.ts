@@ -9,6 +9,7 @@ type CollectedCodeType = {
     question_current: object | null,
     question_points: number | null
     score: number,
+    data: string,
     collected_at: string
 };
 
@@ -20,6 +21,7 @@ export default class CollectedCodeModel extends Model {
     questionCurrent: object | null = null;
     questionPoints: number | null = null;
     score: number = 0;
+    data: string = '';
     collectedAt: Date = new Date();
 
     protected hydrate (data: CollectedCodeType): this {
@@ -35,6 +37,10 @@ export default class CollectedCodeModel extends Model {
     }
 
     protected dehydrate (method: BridgeRequestMethod): Object {
-        return { };
+        return method === BridgeRequestMethod.POST
+            ? {
+                data: this.data
+            }
+            : {};
     }
 }

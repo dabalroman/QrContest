@@ -59,6 +59,15 @@ i18n
                     'You may call me Steve.': 'Możesz mówić mi Steve',
                     'Patience! This is difficult, you know...': 'Chwila! To dość skomplikowane...',
                     'Still faster than Windows update': 'Nadal szybszy, niż Windows update.'
+                },
+                CollectCodeTile: {
+                    'Collect code': 'Dodaj kod',
+                    'Can\'t scan a code?': 'Nie możesz zeskanować kodu?',
+                    'No problem, enter the code below.': 'Nie ma problemu, wpisz go poniżej.',
+                    'Secret code': 'Tajny kod',
+                    'Enter your secret code': 'Wpisz swój sekretny kod',
+                    'Code can contain only letters and digits.': 'Kod może składać się tylko z liter i cyfr.',
+                    'Confirm': 'Potwierdź'
                 }
             }
         }

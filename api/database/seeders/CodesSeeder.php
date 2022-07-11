@@ -16,7 +16,7 @@ class CodesSeeder extends Seeder
                 [
                     Code::ID => 1,
                     Code::NAME => 'The first one',
-                    Code::DATA => 'CODE_01',
+                    Code::DATA => 'CODENORMAL',
                     Code::POINTS => 10,
                     Code::DESCRIPTION => 'First code in the app!',
                     Code::IS_ACTIVE => true,
@@ -25,7 +25,7 @@ class CodesSeeder extends Seeder
                 [
                     Code::ID => 2,
                     Code::NAME => 'Plain sight',
-                    Code::DATA => 'CODE_SIGHT',
+                    Code::DATA => 'CODESIGHT',
                     Code::POINTS => 20,
                     Code::DESCRIPTION => 'Easy one, right?',
                     Code::IS_ACTIVE => true,
@@ -34,7 +34,7 @@ class CodesSeeder extends Seeder
                 [
                     Code::ID => 3,
                     Code::NAME => 'Hidden one',
-                    Code::DATA => 'Eg894jD94F',
+                    Code::DATA => 'CODEHIDDEN',
                     Code::POINTS => 30,
                     Code::DESCRIPTION => 'Nice one!',
                     Code::IS_ACTIVE => true,
@@ -43,7 +43,7 @@ class CodesSeeder extends Seeder
                 [
                     Code::ID => 4,
                     Code::NAME => 'Deactivated',
-                    Code::DATA => 'AFojf0AEGG',
+                    Code::DATA => 'CODEDEACTIVATED',
                     Code::POINTS => 40,
                     Code::DESCRIPTION => 'Sorry!',
                     Code::IS_ACTIVE => false,

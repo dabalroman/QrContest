@@ -70,7 +70,7 @@ final class Code extends ApiModel
         self::WITH_QUESTION => 'bool',
     ];
 
-    public static function generateRandomData(int $length = 9): string
+    public static function generateRandomData(int $length = 10): string
     {
         $output = '';
 

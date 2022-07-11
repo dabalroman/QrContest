@@ -3,7 +3,7 @@ import { createStyles, MantineTheme, Table } from '@mantine/core';
 import { CircleCheck, CircleMinus, CircleX } from 'tabler-icons-react';
 import ThemeHelper from '../../Utils/ThemeHelper';
 import InlineLoader from '../../Components/InlineLoader';
-import { TextAlignClass, TileClass } from '../Style';
+import { ColorfulIconClass, TextAlignClass, TileClass } from '../Style';
 import CollectedCodeModel from '../../Model/CollectedCodeModel';
 import Model from '../../Model/Model';
 import filterTimeHoursMinutes from '../../Utils/Filters/TimeFilter';
@@ -16,11 +16,11 @@ const useStyles =
                 lineHeight: '24px'
             },
 
-            'th:first-child, td:first-child': {
+            'th:first-of-type, td:first-of-type': {
                 paddingLeft: 0
             },
 
-            'th:first-child, td:last-child': {
+            'th:first-of-type, td:last-of-type': {
                 paddingRight: 0
             }
         },
@@ -37,18 +37,6 @@ const useStyles =
         icon: {
             position: 'relative',
             top: 4
-        },
-
-        iconBlue: {
-            color: theme.colors.blue[5]
-        },
-
-        iconRed: {
-            color: theme.colors.red[5]
-        },
-
-        iconGreen: {
-            color: theme.colors.green[5]
         },
 
         legend: {
@@ -71,7 +59,8 @@ const useStyles =
         },
 
         ...TextAlignClass,
-        ...TileClass(theme)
+        ...TileClass(theme),
+        ...ColorfulIconClass(theme)
     })) as Function;
 
 export default function CollectedCodesTile () {

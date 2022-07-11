@@ -13,6 +13,7 @@ const useStyles =
             position: 'fixed',
             top: 0,
             width: '100%',
+            zIndex: 1000,
 
             background: ThemeHelper.getBackgroundColor(theme, theme.colors.dark[4], theme.colors.gray[1]),
             borderBottom: `2px solid ${theme.colors[theme.primaryColor][8]}`,

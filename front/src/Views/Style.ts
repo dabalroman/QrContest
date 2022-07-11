@@ -38,3 +38,23 @@ export function TileClass (theme: MantineTheme): { tile: CSSObject } {
         }
     });
 }
+
+export function ColorfulIconClass (theme: MantineTheme): {
+    iconBlue: CSSObject,
+    iconRed: CSSObject,
+    iconGreen: CSSObject
+} {
+    return ({
+        iconBlue: {
+            color: theme.colors.blue[5]
+        },
+
+        iconRed: {
+            color: theme.colors.red[6]
+        },
+
+        iconGreen: {
+            color: theme.colors.green[5]
+        }
+    });
+}

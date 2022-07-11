@@ -8,14 +8,11 @@ import ThemeHelper from '../Utils/ThemeHelper';
 import { TileClass } from './Style';
 import CollectedCodesTile from './Tiles/CollectedCodesTile';
 import Navbar from '../Components/Navbar';
+import CollectCodeTile from './Tiles/CollectCodeTile';
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const useStyles =
     createStyles((theme: MantineTheme) => ({
-        navbar: {
-            background: 'coral'
-        },
-
         score: {
             textAlign: 'center',
 
@@ -53,10 +50,7 @@ export default function DashboardView (): JSX.Element {
                 <h1>{user.score} pkt.</h1>
                 Ilość zgromadzonych punktów
             </div>
-            <div className={ThemeHelper.classes(classes.tile)}>
-                <h1>Dodaj kod</h1>
-                <p>Nie możesz zeskanować kodu? <br/> Nie ma problemu, wpisz go w pole poniżej.</p>
-            </div>
+            <CollectCodeTile/>
             <div className={ThemeHelper.classes(classes.tile)}>
                 <h1>Ranking</h1>
             </div>

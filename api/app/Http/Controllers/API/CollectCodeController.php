@@ -29,7 +29,7 @@ class CollectCodeController extends Controller
         }
 
         $validationRules = [
-            Code::DATA => 'required|string|min:6'
+            Code::DATA => 'required|string|min:3'
         ];
 
         if (!$this->validateRequestData($request, $validationRules)) {
@@ -37,6 +37,7 @@ class CollectCodeController extends Controller
         }
 
         $requestData = $request->all();
+        $requestData[Code::DATA] = strtoupper($requestData[Code::DATA]);
 
         $code = Code::whereData($requestData[Code::DATA])->first();
 
@@ -54,18 +55,15 @@ class CollectCodeController extends Controller
         $collectedCode->user_id = $this->currentUser->id;
         $collectedCode->code_id = $code->id;
 
-        if (!$code->with_question) {
-            $collectedCode->save();
-            return $this->successResponse(new CollectedCodeResource($collectedCode));
+        if($code->with_question) {
+            $collectedCode->prepareQuestion();
         }
 
-        $collectedCode->prepareQuestion();
         $collectedCode->save();
 
         $this->currentUser->updateScore();
         $this->currentUser->save();
 
-        // Handle question
         return $this->successResponse(new CollectedCodeResource($collectedCode));
     }
 

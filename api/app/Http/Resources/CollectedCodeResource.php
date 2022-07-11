@@ -27,7 +27,9 @@ class CollectedCodeResource extends JsonResource
                     ? new PublicQuestionResource($collectedCode->question, $collectedCode->question_answers_map)
                     : null,
             UserCollectedCode::V_QUESTION_POINTS =>
-                isset($collectedCode->question) ? $collectedCode->question->points : null,
+                isset($collectedCode->question) && $collectedCode->question_answer !== null
+                    ? $collectedCode->question->points
+                    : null,
             UserCollectedCode::V_SCORE => $collectedCode->score,
             UserCollectedCode::V_COLLECTED_AT => $collectedCode->created_at
         ];
