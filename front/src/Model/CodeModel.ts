@@ -1,6 +1,6 @@
-import Model from '../Model';
-import { ApiEndpoint } from '../../Api/ApiUrls';
-import { BridgeRequestMethod } from '../../Api/Bridge';
+import Model from './Model';
+import { ApiEndpoint } from '../Api/ApiUrls';
+import { BridgeRequestMethod } from '../Api/Bridge';
 
 type CodeModelType = {
     id?: number,

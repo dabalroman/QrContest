@@ -10,5 +10,6 @@ export enum ApiEndpoint {
     users = 'users',
     profile = 'profile',
     refresh = 'refresh',
-    codes = 'codes'
+    codes = 'codes',
+    collectedCodes = 'collected_codes'
 }

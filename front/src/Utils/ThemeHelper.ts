@@ -11,7 +11,7 @@ abstract class ThemeHelper {
 
     public static getBackgroundColor (
         theme: MantineTheme,
-        darkTheme: string = theme.colors.dark[7],
+        darkTheme: string = theme.colors.dark[6],
         brightTheme: string = theme.colors.gray[0]
     ) {
         return theme.colorScheme === 'dark' ? darkTheme : brightTheme;

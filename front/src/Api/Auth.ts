@@ -3,6 +3,7 @@ import { ApiEndpoint } from './ApiUrls';
 import UserModel from '../Model/User/UserModel';
 
 class Auth {
+    private ready: boolean = false;
     private user: UserModel | null = null;
 
     public restoreSession (): Promise<boolean> {
@@ -10,9 +11,13 @@ class Auth {
             UserModel.getCurrent()
                 .then((user: UserModel) => {
                     this.user = user;
+                    this.ready = true;
                     resolve(true);
                 })
-                .catch(() => resolve(false));
+                .catch(() => {
+                    this.ready = true;
+                    resolve(false);
+                });
         });
     }
 
@@ -29,6 +34,7 @@ class Auth {
                 }
 
                 this.user = UserModel.fromData(response.data) as UserModel;
+                this.ready = true;
 
                 // eslint-disable-next-line no-console
                 console.log(`[Auth] Logged in as ${this.user.id}`);
@@ -50,6 +56,7 @@ class Auth {
                 }
 
                 this.user = UserModel.fromData(response.data) as UserModel;
+                this.ready = true;
 
                 // eslint-disable-next-line no-console
                 console.log(`[Auth] Logged in as ${this.user.id}`);
@@ -66,6 +73,7 @@ class Auth {
                 }
 
                 this.user = null;
+                this.ready = true;
 
                 // eslint-disable-next-line no-console
                 console.log('[Auth/Shallow] Logged out');
@@ -74,6 +82,7 @@ class Auth {
             })
             .catch(() => {
                 this.user = null;
+                this.ready = true;
 
                 // eslint-disable-next-line no-console
                 console.log('[Auth] Cleared local auth data');
@@ -86,6 +95,10 @@ class Auth {
         }
 
         return this.user;
+    }
+
+    isReady (): boolean {
+        return this.ready;
     }
 
     isLoggedIn (): boolean {

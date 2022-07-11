@@ -16,7 +16,7 @@ const useStyles =
             justifyContent: 'center',
             alignItems: 'center',
             width: '100vw',
-            height: '100vh',
+            minHeight: '100vh',
             color: ThemeHelper.getTextColor(theme, theme.colors.gray[3], theme.colors.dark[7]),
             background: ThemeHelper.getBackgroundImage(theme),
             backgroundPosition: 'center',
@@ -26,6 +26,7 @@ const useStyles =
         },
 
         form: {
+            marginBottom: '20%',
             width: '100%',
             display: 'grid',
             gridGap: 20,

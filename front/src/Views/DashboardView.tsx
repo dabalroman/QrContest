@@ -1,11 +1,42 @@
 import React, { useEffect } from 'react';
-import { Button } from '@mantine/core';
+import { Button, createStyles, Loader, MantineTheme } from '@mantine/core';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import Auth from '../Api/Auth';
 import Routes from './routes';
+import UserModel from '../Model/User/UserModel';
+import ThemeHelper from '../Utils/ThemeHelper';
+import InlineLoader from '../Components/InlineLoader';
+import { TileClass } from './Style';
+import CollectedCodesTile from './Tiles/CollectedCodesTile';
+
+// eslint-disable-next-line @typescript-eslint/typedef
+const useStyles =
+    createStyles((theme: MantineTheme) => ({
+        navbar: {
+            background: 'coral'
+        },
+
+        score: {
+            textAlign: 'center',
+
+            '> h1': {
+                fontSize: '3em !important'
+            }
+        },
+
+        loader: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: 40
+        },
+
+        ...TileClass(theme)
+    })) as Function;
 
 export default function DashboardView (): JSX.Element {
     const navigate: NavigateFunction = useNavigate();
+    const { classes } = useStyles();
 
     useEffect(() => {
         if (!Auth.isLoggedIn()) {
@@ -13,16 +44,25 @@ export default function DashboardView (): JSX.Element {
         }
     }, []);
 
+    const user: UserModel = Auth.getCurrentUser();
+
     return (
         <div className="App">
-            <header className="App-header">
-                <p>
-                    Hello!
-                </p>
-                <p>
-                    {`What's up, ${Auth.getCurrentUser().name}`}
-                </p>
-            </header>
+            <div className={classes.navbar}>
+                <span>{user.name}</span>
+            </div>
+            <div className={ThemeHelper.classes(classes.tile, classes.score)}>
+                <h1>{user.score} pkt.</h1>
+                Ilość zgromadzonych punktów
+            </div>
+            <div className={ThemeHelper.classes(classes.tile)}>
+                <h1>Dodaj kod</h1>
+                <p>Nie możesz zeskanować kodu? <br/> Nie ma problemu, wpisz go w pole poniżej.</p>
+            </div>
+            <div className={ThemeHelper.classes(classes.tile)}>
+                <h1>Ranking</h1>
+            </div>
+            <CollectedCodesTile/>
             <Button onClick={() => {
                 Auth.logout()
                     .then(() => navigate(Routes.login));
