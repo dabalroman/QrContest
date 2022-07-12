@@ -1,6 +1,7 @@
 import { CircleCheck } from 'tabler-icons-react';
 import React from 'react';
 import { createStyles, MantineTheme } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { ColorfulIconClass } from '../Style';
 import CollectedCodeModel from '../../Model/CollectedCodeModel';
 
@@ -13,16 +14,17 @@ const useStyles =
     })) as Function;
 
 export default function CollectCodeSuccess (props: CollectCodeSuccessProps) {
+    const { t } = useTranslation('CollectCodeSuccess');
     const { classes } = useStyles();
 
     return (
         <>
-            <h2>Success!</h2>
-            <CircleCheck className={classes.iconGreen} size={100}/>
-            <code>{props.code}</code>
+            <h1>{t('Success!')}</h1>
             <span>{props.collectedCodeModel?.codeName}</span>
-            <h2>+{props.collectedCodeModel?.score} pkt.</h2>
-            <span>Code was added to your account.</span>
+            <CircleCheck className={classes.iconGreen} size={150}/>
+            <code>{props.code}</code>
+            <h1>+{props.collectedCodeModel?.score} pkt.</h1>
+            <span>{t('Code was added to your account')}</span>
         </>
     );
 }

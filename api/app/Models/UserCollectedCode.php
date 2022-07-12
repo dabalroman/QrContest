@@ -34,6 +34,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|UserCollectedCode whereUpdatedAt($value)
  * @method static Builder|UserCollectedCode whereUserId($value)
  * @mixin Eloquent
+ * @property-read string|null $right_answer
  */
 final class UserCollectedCode extends ApiModel
 {
@@ -52,6 +53,7 @@ final class UserCollectedCode extends ApiModel
     public const V_CODE_POINTS = 'code_points';
     public const V_QUESTION_POINTS = 'question_points';
     public const V_QUESTION_CURRENT = 'question_current';
+    public const V_QUESTION_CORRECT_ANSWER = 'question_correct_answer';
 
     protected $fillable = [
         self::USER_ID,
@@ -68,6 +70,15 @@ final class UserCollectedCode extends ApiModel
     {
         return $this->code->points
             + (($this->question_id !== null && $this->question_answer === 0) ? $this->question->points : 0);
+    }
+
+    public function getRightAnswerAttribute(): ?string
+    {
+        if(isset($this->question_answers_map)) {
+            return str_split($this->question_answers_map)[0];
+        }
+
+        return null;
     }
 
     public function code(): HasOne

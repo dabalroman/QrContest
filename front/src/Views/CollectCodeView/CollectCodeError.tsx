@@ -1,6 +1,7 @@
 import { CircleX } from 'tabler-icons-react';
 import React from 'react';
 import { createStyles, MantineTheme } from '@mantine/core';
+import { useTranslation } from 'react-i18next';
 import { ColorfulIconClass } from '../Style';
 
 export type CollectCodeErrorProps = { code: string | null, codeCollectRequestState: number | null };
@@ -12,23 +13,24 @@ const useStyles =
     })) as Function;
 
 export default function CollectCodeError (props: CollectCodeErrorProps) {
+    const { t } = useTranslation('CollectCodeError');
     const { classes } = useStyles();
 
     const getErrorDescription = (errorCode: number | null): string => {
         switch (errorCode) {
             case 400:
-                return 'Code is already collected.';
+                return t('Code is already collected');
             case 404:
-                return 'Code not found';
+                return t('Code does not exist');
             default:
-                return 'Unexpected error';
+                return t('Unexpected error. Try again.');
         }
     };
 
     return (
         <>
-            <h2>ERROR!</h2>
-            <CircleX className={classes.iconRed} size={100}/>
+            <h1>{t('Error!')}</h1>
+            <CircleX className={classes.iconRed} size={150}/>
             <code>{props.code}</code>
             <span>{getErrorDescription(props.codeCollectRequestState)}</span>
         </>

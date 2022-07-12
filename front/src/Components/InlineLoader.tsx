@@ -32,7 +32,7 @@ const loaderTextArray: string[] = [
     'The bits are flowing slowly today.',
     'Are we there yet?',
     'Don\'t panic...',
-    'I\'m sorry Dave, I\'m afraid I can\'t do that.',
+    'I\'m sorry Dave, I\'m still working on it.',
     'I swear it\'s almost done.',
     'Dividing by zero...',
     'Proving P=NP...',

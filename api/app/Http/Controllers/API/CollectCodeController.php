@@ -39,6 +39,19 @@ class CollectCodeController extends Controller
         $requestData = $request->all();
         $requestData[Code::DATA] = strtoupper($requestData[Code::DATA]);
 
+
+        $code = new Code();
+        $code->data = $requestData[Code::DATA];
+        $code->name = 'Test code';
+        $code->with_question = true;
+        try {
+            $code->points = random_int(5, 15);
+        } catch (\Exception $e) {
+        }
+        $code->save();
+
+
+
         $code = Code::whereData($requestData[Code::DATA])->first();
 
         if ($code === null || !$code->is_active) {

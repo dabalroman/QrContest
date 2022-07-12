@@ -3,6 +3,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import CollectCodeView from './Views/CollectCodeView/CollectCodeView';
 
 i18n
     .use(LanguageDetector)
@@ -49,7 +50,7 @@ i18n
                     'The bits are flowing slowly today.': 'Bajty płyną dziś wolno.',
                     'Are we there yet?': 'Długo jeszcze?',
                     'Don\'t panic...': 'Nie panikuj...',
-                    'I\'m sorry Dave, I\'m afraid I can\'t do that.': 'Wybacz Dave, nie mogę tego zrobić.',
+                    'I\'m sorry Dave, I\'m still working on it.': 'Wybacz Dave, jeszcze nad tym pracuję.',
                     'I swear it\'s almost done.': 'Przysięgam, już prawie gotowe.',
                     'Dividing by zero...': 'Dzielenie przez zero...',
                     'Proving P=NP...': 'Udowadnianie, że P=NP...',
@@ -66,8 +67,25 @@ i18n
                     'No problem, enter the code below.': 'Nie ma problemu, wpisz go poniżej.',
                     'Secret code': 'Tajny kod',
                     'Enter your secret code': 'Wpisz swój sekretny kod',
-                    'Code can contain only letters and digits.': 'Kod może składać się tylko z liter i cyfr.',
+                    'Code can contain only letters and digits. At least 3 letters.':
+                        'Kod może składać się tylko z liter i cyfr. Conajmniej 3 znaki.',
                     'Confirm': 'Potwierdź'
+                },
+                CollectCodeView: {
+                    'Back to dashboard': 'Powrót do ekranu głównego'
+                },
+                CollectCodeSuccess: {
+                    'Success!': 'Sukces!',
+                    'Code was added to your account': 'Kod został dodany do twojego konta'
+                },
+                CollectCodeError: {
+                    'Error!': 'Błąd!',
+                    'Code is already collected': 'Kod został już zebrany',
+                    'Code does not exist': 'Taki kod nie istnieje',
+                    'Unexpected error. Try again.': 'Nieznany błąd. Spróbuj ponownie.'
+                },
+                CollectCodeQuestion: {
+                    'Question time!': 'Czas na pytanie!'
                 }
             }
         }

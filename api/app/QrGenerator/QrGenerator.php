@@ -63,7 +63,7 @@ class QrGenerator
      * @param resource $image
      * @return resource
      */
-    public function convertToTransparentImage($image)
+    public function convertToTransparentImage($image, bool $denoise = false)
     {
         $width = imagesx($image);
         $height = imagesy($image);
@@ -74,12 +74,24 @@ class QrGenerator
         imagecopy($imageProxy, $image, 0, 0, 0, 0, $width, $height);
         imagecolortransparent($imageProxy, imagecolorexact($imageProxy, 255, 255, 255));
 
+        // Denoising. Because PHP. Don't ask why, don't know either.
+        if ($denoise) {
+            for ($i = 0; $i < imagecolorstotal($imageProxy); $i++) {
+                ['red' => $brightness] = imagecolorsforindex($imageProxy, $i);
+
+                $brightness = $brightness >= 127 ? 255 : 0;
+
+                imagecolorset($imageProxy, $i, $brightness, $brightness, $brightness, $brightness ? 127 : 0);
+            }
+        }
+
         imagedestroy($image);
 
         return $imageProxy;
     }
 
-    protected function drawBackgroundText(Code $code): void {
+    protected function drawBackgroundText(Code $code): void
+    {
         $bgTextColor = imagecolorallocate($this->canvas, 230, 230, 240);
         $text = 'qrcontest   2022   fantasmagoria   2022   ';
 
@@ -121,8 +133,17 @@ class QrGenerator
 
         [$qrWidth, $qrHeight] = getimagesizefromstring($qrCodeAsString);
 
-        $qrImage = $this->convertToTransparentImage(imagecreatefromstring($qrCodeAsString));
-        imagecolorset($qrImage, imagecolorexact($qrImage, 0, 0, 0), 18, 49, 84);
+        $qrImage = $this->convertToTransparentImage(imagecreatefromstring($qrCodeAsString), true);
+
+        // Denoising. Because PHP. Don't ask why, don't know either.
+        for ($i = 0; $i < imagecolorstotal($qrImage); $i++) {
+            ['red' => $brightness] = imagecolorsforindex($qrImage, $i);
+
+            if ($brightness < 127) {
+                imagecolorset($qrImage, $i, 18, 49, 84);
+            }
+        }
+
         imagecopy($this->canvas, $qrImage, $this->getCenter($this->width, $qrWidth), 350, 0, 0, $qrWidth, $qrHeight);
 
         $logoImage = $this->convertToTransparentImage(imagecreatefrompng(resource_path('images/fantasmagoria.png')));

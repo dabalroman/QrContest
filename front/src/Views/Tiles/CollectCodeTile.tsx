@@ -42,7 +42,7 @@ export default function CollectCodeTile () {
         },
 
         errorMessages: {
-            data: t('Code can contain only letters and digits.')
+            data: t('Code can contain only letters and digits. At least 3 letters.')
         }
     });
 

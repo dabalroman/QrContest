@@ -45,7 +45,7 @@ class QuestionsSeeder extends Seeder
                     Question::QUESTION => 'What color is green grass?',
                     Question::ANSWER_RIGHT => 'Green',
                     Question::ANSWER_WRONG_X => 'Black',
-                    Question::ANSWER_WRONG_Y => 'Black',
+                    Question::ANSWER_WRONG_Y => 'Blue',
                     Question::ANSWER_WRONG_Z => 'Dark',
                     Question::POINTS => 4,
                 ],
