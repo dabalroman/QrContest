@@ -6,6 +6,7 @@ type UserDataType = {
     id: number,
     name: string,
     score: number,
+    bracelet_id: number,
     is_admin: boolean,
     created_at: string
 };
@@ -16,6 +17,7 @@ export default class UserModel extends Model {
     name: string;
     password: string | null = null;
     score: number = 0;
+    braceletId: number = 0;
     isAdmin: boolean = false;
     createdAt: string = '';
 
@@ -29,6 +31,7 @@ export default class UserModel extends Model {
         this.id = data.id;
         this.name = data.name;
         this.score = data.score;
+        this.braceletId = data.bracelet_id;
         this.isAdmin = data.is_admin;
         this.createdAt = data.created_at;
 
@@ -40,7 +43,9 @@ export default class UserModel extends Model {
             method === BridgeRequestMethod.POST
                 ? {
                     name: this.name,
-                    password: this.password
+                    password: this.password,
+                    password_confirmation: this.password,
+                    bracelet_id: this.braceletId
                 }
                 : {
                     name: this.name,

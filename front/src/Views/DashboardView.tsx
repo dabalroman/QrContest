@@ -9,6 +9,7 @@ import { TileClass } from './Style';
 import CollectedCodesTile from './Tiles/CollectedCodesTile';
 import Navbar from '../Components/Navbar';
 import CollectCodeTile from './Tiles/CollectCodeTile';
+import StandingsTile from './Tiles/StandingsTile';
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const useStyles =
@@ -26,6 +27,15 @@ const useStyles =
             flexDirection: 'column',
             alignItems: 'center',
             padding: 40
+        },
+
+        braceletId: {
+            backgroundColor: ThemeHelper.getBackgroundColor(theme, theme.colors.dark[9], theme.colors.gray[0]),
+            padding: '10px 20px',
+            borderRadius: 10,
+            fontSize: '0.8em',
+            margin: '20px 0',
+            textAlign: 'center'
         },
 
         ...TileClass(theme)
@@ -47,20 +57,21 @@ export default function DashboardView (): JSX.Element {
         <div className="App">
             <Navbar/>
             <div className={ThemeHelper.classes(classes.tile, classes.score)}>
-                <h1>{user.score} pkt.</h1>
-                Ilość zgromadzonych punktów
+                <h1>{user.score} pkt</h1>
+                {user.score !== 0 ? 'Ilość zgromadzonych punktów' : 'Znajdź i zeskanuj swój pierwszy kod!'}
             </div>
             <CollectCodeTile/>
-            <div className={ThemeHelper.classes(classes.tile)}>
-                <h1>Ranking</h1>
-            </div>
+            <StandingsTile/>
             <CollectedCodesTile/>
             <div className={ThemeHelper.classes(classes.tile)}>
                 <h1>Inne</h1>
-                <Button onClick={() => {
-                    Auth.logout()
-                        .then(() => navigate(Routes.login));
-                }}
+                <div className={classes.braceletId}>{user.name}#{user.braceletId}</div>
+                <Button
+                    fullWidth
+                    onClick={() => {
+                        Auth.logout()
+                            .then(() => navigate(Routes.login));
+                    }}
                 >
                     Wyloguj
                 </Button>

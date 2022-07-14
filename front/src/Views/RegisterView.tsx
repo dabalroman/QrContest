@@ -68,14 +68,14 @@ export default function RegisterView (): JSX.Element {
         },
 
         validationRules: {
-            name: (value: string) => value.trim().length >= 3,
+            name: (value: string) => value.trim().length >= 3 && value.trim().length <= 16,
             braceletId: (value: string) => value.trim().length >= 3,
             password: (value: string) => value.trim().length >= 8,
             passwordConfirm: (value: string) => value.trim().length >= 8
         },
 
         errorMessages: {
-            name: t('Nickname should be at least 3 characters long.'),
+            name: t('Nickname should have at least 3 characters, at most 16.'),
             braceletId: t('Bracelet id should be at least 3 characters long.'),
             password: t('Password should be at least 8 characters long.'),
             passwordConfirm: t('Password should be at least 8 characters long.')

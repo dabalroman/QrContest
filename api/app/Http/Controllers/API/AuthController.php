@@ -18,7 +18,7 @@ class AuthController extends Controller
     public function register(Request $request): JsonResponse
     {
         $validationRules = [
-            User::NAME => 'required|string|min:3|max:255|unique:users',
+            User::NAME => 'required|string|min:3|max:16|unique:users',
             User::PASSWORD => 'required|string|min:8|max:255',
             User::PASSWORD_CONFIRM => 'required|string|min:8|max:255|same:password',
             User::BRACELET_ID => 'string'
@@ -45,7 +45,7 @@ class AuthController extends Controller
     public function login(Request $request): JsonResponse
     {
         $validationRules = [
-            User::NAME => 'required|string|min:3|max:255',
+            User::NAME => 'required|string|min:3|max:16',
             User::PASSWORD => 'required|string|min:8|max:255'
         ];
 
