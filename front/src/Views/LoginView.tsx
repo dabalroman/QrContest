@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Button, createStyles, MantineTheme, PasswordInput, TextInput } from '@mantine/core';
-import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
+import { ActionIcon, Button, createStyles, MantineTheme, PasswordInput, TextInput } from '@mantine/core';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from '@mantine/hooks';
+import { QuestionMark } from 'tabler-icons-react';
 import ThemeHelper from '../Utils/ThemeHelper';
 import Routes from './routes';
 import Auth from '../Api/Auth';
@@ -18,11 +19,16 @@ const useStyles =
             width: '100vw',
             minHeight: '100vh',
             color: ThemeHelper.getTextColor(theme, theme.colors.gray[3], theme.colors.dark[7]),
-            background: ThemeHelper.getBackgroundImage(theme),
+            background: 'url(bg.jpg)',
             backgroundPosition: 'center',
             backgroundSize: 'cover',
-            backgroundColor: ThemeHelper.getBackgroundColor(theme, theme.colors.dark[9], theme.colors.gray[4]),
             padding: 20
+        },
+
+        logo: {
+            width: '70vw',
+            maxWidth: 500,
+            marginBottom: 50
         },
 
         form: {
@@ -32,7 +38,22 @@ const useStyles =
             gridGap: 20,
             backgroundColor: ThemeHelper.getBackgroundColor(theme),
             padding: 16,
-            borderRadius: 20
+            borderRadius: 20,
+
+            '> h2': {
+                margin: 0,
+                textAlign: 'center'
+            }
+        },
+
+        helpIcon: {
+            position: 'fixed',
+            top: 20,
+            right: 20,
+            color: ThemeHelper.getTextColor(theme),
+            backgroundColor: theme.colors[theme.primaryColor][8],
+            height: '3em',
+            width: '3em'
         }
     })) as Function;
 
@@ -76,15 +97,17 @@ export default function LoginView (): JSX.Element {
     const login = () => {
         Auth.login(values.name, values.password)
             .then(() => navigate(Routes.dashboard))
-            .catch(() => alert('Something went wrong'));
+            // eslint-disable-next-line no-alert
+            .catch(() => alert('Something went wrong, try again.'));
     };
 
     /* eslint-disable react/jsx-props-no-spreading */
     // noinspection TypeScriptValidateTypes
     return (
         <div className={classes.view}>
-            <h1>{t('Log in')}</h1>
+            <img src="logo.png" alt="QrContest" className={classes.logo}/>
             <form className={classes.form} onSubmit={onSubmit(login)}>
+                <h2>{t('Log in')}</h2>
                 <TextInput
                     required
                     label={t('Nickname')}
@@ -101,8 +124,20 @@ export default function LoginView (): JSX.Element {
 
                 <Button type="submit">{t('Login')}</Button>
 
-                <Button variant="subtle" onClick={() => navigate(Routes.register)}>{t('I don\'t have an account!')}</Button>
+                <Button
+                    variant="subtle"
+                    onClick={() => navigate(Routes.register)}
+                >
+                    {t('I don\'t have an account!')}
+                </Button>
             </form>
+            <ActionIcon
+                className={classes.helpIcon as string}
+                variant="default"
+                onClick={() => navigate(Routes.help)}
+            >
+                <QuestionMark/>
+            </ActionIcon>
         </div>
     );
 }

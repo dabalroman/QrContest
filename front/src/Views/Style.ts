@@ -15,7 +15,7 @@ export function CleanLinkClass (theme: MantineTheme): { cleanLink: CSSObject } {
     return ({
         cleanLink: {
             textDecoration: 'none',
-            color: ThemeHelper.getTextColor(theme)
+            color: theme.colors[theme.primaryColor][5]
         }
     });
 }

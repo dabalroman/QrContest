@@ -9,6 +9,8 @@ import DashboardView from './Views/DashboardView';
 import RegisterView from './Views/RegisterView';
 import RequireSession from './Views/Middleware/RequireSession';
 import CollectCodeView from './Views/CollectCodeView/CollectCodeView';
+import HelpView from './Views/HelpView';
+import RulebookView from './Views/RulebookView';
 
 function App () {
     const navigate: NavigateFunction = useNavigate();
@@ -23,14 +25,16 @@ function App () {
                 setSessionActive(isSessionRestored);
                 setLoading(false);
 
-                const onLoginOrRegisterView: boolean =
-                    location.pathname === Routes.login || location.pathname === Routes.register;
+                const onPublicPage: boolean =
+                    location.pathname === Routes.login
+                    || location.pathname === Routes.register
+                    || location.pathname === Routes.help;
 
                 if (isSessionRestored) {
-                    if (onLoginOrRegisterView) {
+                    if (onPublicPage) {
                         navigate(Routes.dashboard);
                     }
-                } else if (!onLoginOrRegisterView) {
+                } else if (!onPublicPage) {
                     navigate(Routes.login);
                 }
             });
@@ -81,6 +85,8 @@ function App () {
                 <Route path={Routes.code} element={<RequireSession><CollectCodeView/></RequireSession>}/>
                 <Route path={Routes.login} element={<LoginView/>}/>
                 <Route path={Routes.register} element={<RegisterView/>}/>
+                <Route path={Routes.help} element={<HelpView/>}/>
+                <Route path={Routes.rulebook} element={<RulebookView/>}/>
                 <Route path="*" element={<p>404</p>}/>
             </Router>
         </MantineProvider>

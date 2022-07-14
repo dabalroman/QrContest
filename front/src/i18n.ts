@@ -24,7 +24,8 @@ i18n
                     'Password': 'Hasło',
                     'Your secret password': 'Twoje tajne hasło',
                     'Password should be at least 8 characters long.': 'Hasło musi mieć co najmniej 8 znaków.',
-                    'I don\'t have an account!': 'Nie mam jeszcze konta!'
+                    'I don\'t have an account!': 'Nie mam jeszcze konta!',
+                    'Something went wrong, try again.': 'Coś poszło nie tak, spróbuj ponownie.'
                 },
                 RegisterView: {
                     'Register': 'Zarejestruj się',

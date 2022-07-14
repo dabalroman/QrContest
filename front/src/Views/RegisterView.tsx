@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Button, createStyles, MantineTheme, PasswordInput, TextInput } from '@mantine/core';
+import { ActionIcon, Button, createStyles, MantineTheme, PasswordInput, TextInput } from '@mantine/core';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from '@mantine/hooks';
+import { QuestionMark } from 'tabler-icons-react';
 import ThemeHelper from '../Utils/ThemeHelper';
 import Auth from '../Api/Auth';
 import Routes from './routes';
@@ -19,11 +20,16 @@ const useStyles =
             width: '100vw',
             minHeight: '100vh',
             color: ThemeHelper.getTextColor(theme, theme.colors.gray[3], theme.colors.dark[7]),
-            background: ThemeHelper.getBackgroundImage(theme),
+            background: 'url(bg.jpg)',
             backgroundPosition: 'center',
             backgroundSize: 'cover',
-            backgroundColor: ThemeHelper.getBackgroundColor(theme, theme.colors.dark[9], theme.colors.gray[4]),
             padding: 20
+        },
+
+        logo: {
+            width: '70vw',
+            maxWidth: 500,
+            marginBottom: 50
         },
 
         form: {
@@ -33,8 +39,25 @@ const useStyles =
             gridGap: 20,
             backgroundColor: ThemeHelper.getBackgroundColor(theme),
             padding: 16,
-            borderRadius: 20
-        }
+            borderRadius: 20,
+
+            '> h2': {
+                margin: 0,
+                textAlign: 'center'
+            }
+        },
+
+        helpIcon: {
+            position: 'fixed',
+            top: 20,
+            right: 20,
+            color: ThemeHelper.getTextColor(theme),
+            backgroundColor: theme.colors[theme.primaryColor][8],
+            height: '3em',
+            width: '3em'
+        },
+
+        ...CleanLinkClass(theme)
     })) as Function;
 
 export default function RegisterView (): JSX.Element {
@@ -96,8 +119,10 @@ export default function RegisterView (): JSX.Element {
     // noinspection TypeScriptValidateTypes
     return (
         <div className={classes.view}>
-            <h1>{t('Register')}</h1>
+            <img src="logo.png" alt="QrContest" className={classes.logo}/>
             <form className={classes.form} onSubmit={onSubmit(register)}>
+                <h2>{t('Register')}</h2>
+
                 <TextInput
                     required
                     label={t('Nickname')}
@@ -126,10 +151,20 @@ export default function RegisterView (): JSX.Element {
                     {...getInputProps('passwordConfirm')}
                 />
 
+                <small>Biorąc udział w konkursie akceptujesz warunki&nbsp;
+                    <Link className={classes.cleanLink} to={Routes.rulebook}>regulaminu</Link>.
+                </small>
                 <Button type="submit">{t('Register')}</Button>
 
                 <Button variant="subtle" onClick={() => navigate(Routes.login)}>{t('I want to log in!')}</Button>
             </form>
+            <ActionIcon
+                className={classes.helpIcon as string}
+                variant="default"
+                onClick={() => navigate(Routes.help)}
+            >
+                <QuestionMark/>
+            </ActionIcon>
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActionIcon, createStyles, MantineTheme } from '@mantine/core';
 import { QuestionMark } from 'tabler-icons-react';
-import { Link } from 'react-router-dom';
+import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import { CleanLinkClass, TextAlignClass } from '../Views/Style';
 import Auth from '../Api/Auth';
 import UserModel from '../Model/User/UserModel';
@@ -43,6 +43,7 @@ const useStyles =
 
 export default function Navbar () {
     const { classes } = useStyles();
+    const navigate: NavigateFunction = useNavigate();
 
     const user: UserModel = Auth.getCurrentUser();
 
@@ -54,7 +55,13 @@ export default function Navbar () {
                     <Link className={classes.cleanLink} to={Routes.dashboard}><b>{user.name}</b></Link>
                 </div>
                 <div className={classes.alignRight}>
-                    <ActionIcon className={classes.helpIcon as string} variant="default"><QuestionMark/></ActionIcon>
+                    <ActionIcon
+                        className={classes.helpIcon as string}
+                        variant="default"
+                        onClick={() => navigate(Routes.help)}
+                    >
+                        <QuestionMark/>
+                    </ActionIcon>
                 </div>
             </div>
             <div className={classes.placeholder}/>

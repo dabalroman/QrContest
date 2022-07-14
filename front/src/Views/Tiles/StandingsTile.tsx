@@ -66,21 +66,9 @@ export default function StandingsTile () {
             .then((codes: UserStandingsModel[]) => setUserStandings(codes));
     }, []);
 
-    // const decorateQuestionPoints = (points: number | null): JSX.Element | null => {
-    //     if (points === null) {
-    //         return <CircleMinus className={ThemeHelper.classes(classes.icon, classes.iconBlue)}/>;
-    //     }
-    //
-    //     if (points === 0) {
-    //         return <CircleX className={ThemeHelper.classes(classes.icon, classes.iconRed)}/>;
-    //     }
-    //
-    //     return <CircleCheck className={ThemeHelper.classes(classes.icon, classes.iconGreen)}/>;
-    // };
-
     const myId: number = Auth.getCurrentUser().id;
     const myStanding: number =
-        userStandings?.findIndex((userStanding: UserStandingsModel) => userStanding.id === myId) ?? 0;
+        userStandings?.findIndex((userStanding: UserStandingsModel) => userStanding.id === myId) ?? -1;
 
     const tableContents: JSX.Element[] | null =
         userStandings?.map((userStanding: UserStandingsModel, index: number) => (
@@ -111,7 +99,7 @@ export default function StandingsTile () {
     return (
         <div className={ThemeHelper.classes(classes.tile)}>
             <h1>Ranking</h1>
-            <div className={classes.standing as string}>Jesteś na {myStanding + 1}. pozycji</div>
+            {myStanding !== -1 && <div className={classes.standing as string}>Jesteś na {myStanding + 1}. pozycji</div>}
             {collectedCodesJSX}
         </div>
     );
