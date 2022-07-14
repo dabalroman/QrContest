@@ -23,7 +23,7 @@ export default function CollectCodeSuccess (props: CollectCodeSuccessProps) {
             <span>{props.collectedCodeModel?.codeName}</span>
             <CircleCheck className={classes.iconGreen} size={150}/>
             <code>{props.code}</code>
-            <h1>+{props.collectedCodeModel?.score} pkt.</h1>
+            <h1>+{props.collectedCodeModel?.score} pkt</h1>
             <span>{t('Code was added to your account')}</span>
         </>
     );

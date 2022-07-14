@@ -46,17 +46,6 @@ const useStyles =
                 textAlign: 'center'
             }
         },
-
-        helpIcon: {
-            position: 'fixed',
-            top: 20,
-            right: 20,
-            color: ThemeHelper.getTextColor(theme),
-            backgroundColor: theme.colors[theme.primaryColor][8],
-            height: '3em',
-            width: '3em'
-        },
-
         ...CleanLinkClass(theme)
     })) as Function;
 
@@ -158,13 +147,6 @@ export default function RegisterView (): JSX.Element {
 
                 <Button variant="subtle" onClick={() => navigate(Routes.login)}>{t('I want to log in!')}</Button>
             </form>
-            <ActionIcon
-                className={classes.helpIcon as string}
-                variant="default"
-                onClick={() => navigate(Routes.help)}
-            >
-                <QuestionMark/>
-            </ActionIcon>
         </div>
     );
 }

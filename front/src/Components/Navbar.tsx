@@ -50,7 +50,7 @@ export default function Navbar () {
     return (
         <div>
             <div className={classes.navbar}>
-                <div>{user.score} pkt.</div>
+                <div>{user.score} pkt</div>
                 <div className={classes.alignCenter}>
                     <Link className={classes.cleanLink} to={Routes.dashboard}><b>{user.name}</b></Link>
                 </div>

@@ -53,7 +53,8 @@ const useStyles =
             color: ThemeHelper.getTextColor(theme),
             backgroundColor: theme.colors[theme.primaryColor][8],
             height: '3em',
-            width: '3em'
+            width: '3em',
+            borderRadius: 10
         }
     })) as Function;
 

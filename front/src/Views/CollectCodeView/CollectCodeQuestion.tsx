@@ -125,7 +125,7 @@ export default function CollectCodeQuestion (props: CollectCodeQuestionProps) {
 
     return (
         <div className={classes.view}>
-            <h1>Grasz o {points} pkt.</h1>
+            <h1>Grasz o {points} pkt</h1>
             <div className={classes.question}>
                 {question}
                 <span className={classes.timeLeft as string}>

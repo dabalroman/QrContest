@@ -91,7 +91,7 @@ export default function CollectedCodesTile () {
             <tr key={code.id}>
                 <td className={classes.iconContainer as string}>{decorateQuestionPoints(code.questionPoints)}</td>
                 <td>{code.codeName}</td>
-                <td>+{code.score} pkt.</td>
+                <td>+{code.score} pkt</td>
                 <td>{filterTimeHoursMinutes(code.collectedAt)}</td>
             </tr>
         )) ?? null;
