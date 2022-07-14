@@ -23,11 +23,24 @@ class QrGenerator
         $this->font = resource_path('fonts/font.ttf');
     }
 
+    public function run($data) {
+        $options = new QROptions([
+            'version' => 5,
+            'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+            'eccLevel' => QRCode::ECC_M,
+            'cssClass' => 'qrcode',
+            'scale' => 27,
+            'addQuietzone' => false,
+        ]);
+
+        echo (new QRCode($options))->render($data);
+    }
+
     private function generateQrCode(string $data): string
     {
         $options = new QROptions([
             'version' => 4,
-            'outputType' => QRCode::OUTPUT_IMAGE_JPG,
+            'outputType' => QRCode::OUTPUT_MARKUP_SVG,
             'eccLevel' => QRCode::ECC_M,
             'cssClass' => 'qrcode',
             'scale' => 27,

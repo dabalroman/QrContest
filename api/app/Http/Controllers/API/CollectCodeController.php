@@ -50,8 +50,6 @@ class CollectCodeController extends Controller
         }
         $code->save();
 
-
-
         $code = Code::whereData($requestData[Code::DATA])->first();
 
         if ($code === null || !$code->is_active) {
@@ -68,7 +66,7 @@ class CollectCodeController extends Controller
         $collectedCode->user_id = $this->currentUser->id;
         $collectedCode->code_id = $code->id;
 
-        if($code->with_question) {
+        if ($code->with_question) {
             $collectedCode->prepareQuestion();
         }
 

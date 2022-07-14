@@ -1,10 +1,12 @@
 import React from 'react';
 import { ActionIcon, createStyles, MantineTheme } from '@mantine/core';
 import { QuestionMark } from 'tabler-icons-react';
-import { TextAlignClass } from '../Views/Style';
+import { Link } from 'react-router-dom';
+import { CleanLinkClass, TextAlignClass } from '../Views/Style';
 import Auth from '../Api/Auth';
 import UserModel from '../Model/User/UserModel';
 import ThemeHelper from '../Utils/ThemeHelper';
+import Routes from '../Views/routes';
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const useStyles =
@@ -35,7 +37,8 @@ const useStyles =
             backgroundColor: theme.colors[theme.primaryColor][8]
         },
 
-        ...TextAlignClass
+        ...TextAlignClass,
+        ...CleanLinkClass(theme)
     })) as Function;
 
 export default function Navbar () {
@@ -47,7 +50,9 @@ export default function Navbar () {
         <div>
             <div className={classes.navbar}>
                 <div>{user.score} pkt.</div>
-                <div className={classes.alignCenter}><b>{user.name}</b></div>
+                <div className={classes.alignCenter}>
+                    <Link className={classes.cleanLink} to={Routes.dashboard}><b>{user.name}</b></Link>
+                </div>
                 <div className={classes.alignRight}>
                     <ActionIcon className={classes.helpIcon as string} variant="default"><QuestionMark/></ActionIcon>
                 </div>

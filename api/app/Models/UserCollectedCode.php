@@ -34,7 +34,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|UserCollectedCode whereUpdatedAt($value)
  * @method static Builder|UserCollectedCode whereUserId($value)
  * @mixin Eloquent
- * @property-read string|null $right_answer
+ * @property-read string|null $correct_answer
  */
 final class UserCollectedCode extends ApiModel
 {
@@ -72,9 +72,9 @@ final class UserCollectedCode extends ApiModel
             + (($this->question_id !== null && $this->question_answer === 0) ? $this->question->points : 0);
     }
 
-    public function getRightAnswerAttribute(): ?string
+    public function getCorrectAnswerAttribute(): ?string
     {
-        if(isset($this->question_answers_map)) {
+        if (isset($this->question_answers_map)) {
             return str_split($this->question_answers_map)[0];
         }
 
@@ -92,19 +92,26 @@ final class UserCollectedCode extends ApiModel
     }
 
     /**
-     * @param string[] $questions
+     * @param string[] $answers
      * @return string[]
      */
-    public static function orderQuestionsArrayAccordingToAnswersMap(array $questions, string $answersMap): array
+    public static function orderQuestionsArrayAccordingToAnswersMap(array $answers, string $answersMap): array
     {
-        return array_map(
-            static fn(string $charId) => $questions[ord($charId) - 65],
-            str_split($answersMap)
-        );
+        $orderedQuestions = [];
+
+        for ($i = 0, $iMax = strlen($answersMap); $i < $iMax; $i++) {
+            $orderedQuestions[] = $answers[stripos($answersMap, chr(ord('a') + $i))];
+        }
+
+        return $orderedQuestions;
     }
 
     public static function getAnswerIdFromMappedAnswerId(string $answerId, string $answersMap): int
     {
+        if ($answerId === 'x') {
+            return -1;
+        }
+
         return stripos($answersMap, $answerId);
     }
 
@@ -126,7 +133,7 @@ final class UserCollectedCode extends ApiModel
 
     private function getRandomizedAnswersOrder(): string
     {
-        $map = ['A', 'B', 'C', 'D'];
+        $map = ['a', 'b', 'c', 'd'];
         shuffle($map);
 
         return implode('', $map);

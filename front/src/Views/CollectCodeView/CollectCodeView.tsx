@@ -64,19 +64,7 @@ const useStyles =
         },
 
         questionBackground: {
-            zIndex: 0,
-            color: `${ThemeHelper.getBackgroundColor(theme, theme.colors.dark[9], theme.colors.gray[1])}99`,
-            position: 'relative',
-            fontSize: 600,
-            lineHeight: '600px',
-            fontWeight: 'bold',
-
-            '>span': {
-                position: 'absolute',
-                transform: 'rotate(350deg)',
-                top: -50,
-                right: -65
-            }
+            backgroundImage: 'url(/questionBg.png)'
         },
 
         ...TileClass(theme),
@@ -90,14 +78,15 @@ export default function CollectCodeView (): JSX.Element {
     const { code } = useParams();
 
     // React strict mode hack - prevent sending double request to server
-    let wasCodeHasBeenSentToServerAlready: boolean = false;
+    let hasCodeBeenSentToServerAlready: boolean = false;
 
     const [codeCollectState, setCodeCollectState] = useState<CodeCollectState>(CodeCollectState.pending);
     const [codeCollectRequestState, setCodeCollectRequestState] = useState<number | null>(null);
     const [collectedCodeModel, setCollectedCodeModel] = useState<CollectedCodeModel | null>(null);
+    const [questionMode, setQuestionMode] = useState<boolean>(false);
 
     const collectCode = (data: string) => {
-        if (wasCodeHasBeenSentToServerAlready) {
+        if (hasCodeBeenSentToServerAlready) {
             return;
         }
 
@@ -109,9 +98,9 @@ export default function CollectCodeView (): JSX.Element {
             .then((collectedCodeModelTemp: CollectedCodeModel) => {
                 setCollectedCodeModel(collectedCodeModelTemp);
                 setCodeCollectState(CodeCollectState.success);
+                setQuestionMode(collectedCodeModelTemp.questionCurrent !== null);
 
                 Auth.getCurrentUser().score += collectedCodeModelTemp.codePoints;
-
                 Auth.getCurrentUser()
                     .refresh();
             })
@@ -120,7 +109,7 @@ export default function CollectCodeView (): JSX.Element {
                 setCodeCollectState(CodeCollectState.error);
             });
 
-        wasCodeHasBeenSentToServerAlready = true;
+        hasCodeBeenSentToServerAlready = true;
     };
 
     useEffect(() => {
@@ -132,22 +121,11 @@ export default function CollectCodeView (): JSX.Element {
         collectCode(code);
     }, []);
 
-    const codeCollectSummary: JSX.Element = (
-        <div className={classes.summary}>
-            {codeCollectState === CodeCollectState.success
-                ? <CollectCodeSuccess code={code ?? null} collectedCodeModel={collectedCodeModel}/>
-                : <CollectCodeError code={code ?? null} codeCollectRequestState={codeCollectRequestState}/>}
-        </div>
-    );
-
-    const questionMode: boolean =
-        codeCollectState !== CodeCollectState.error && collectedCodeModel?.questionCurrent !== undefined;
-
     const confirmQuestionAnswered = () => setCodeCollectState(CodeCollectState.answered);
 
     const returnButton: JSX.Element =
         (
-            (questionMode && codeCollectState !== CodeCollectState.question)
+            (questionMode && codeCollectState === CodeCollectState.success)
                 ? (
                     <Button
                         fullWidth
@@ -169,17 +147,25 @@ export default function CollectCodeView (): JSX.Element {
     return (
         <div className="App">
             <Navbar/>
-            <div className={classes.tile}>
-                {questionMode
-                    && <div className={classes.questionBackground as string}><span>???</span></div>}
-
+            <div className={ThemeHelper.classes(classes.tile, questionMode && classes.questionBackground)}>
                 {codeCollectState === CodeCollectState.pending
                     && <InlineLoader/>}
 
-                {(codeCollectState !== CodeCollectState.pending && codeCollectState !== CodeCollectState.question)
-                    && codeCollectSummary}
+                {(codeCollectState === CodeCollectState.success)
+                    && (
+                        <div className={classes.summary}>
+                            <CollectCodeSuccess code={code ?? null} collectedCodeModel={collectedCodeModel}/>
+                        </div>
+                    )}
 
-                {(codeCollectState === CodeCollectState.question)
+                {(codeCollectState === CodeCollectState.error)
+                    && (
+                        <div className={classes.summary}>
+                            <CollectCodeError code={code ?? null} codeCollectRequestState={codeCollectRequestState}/>
+                        </div>
+                    )}
+
+                {(codeCollectState === CodeCollectState.question || codeCollectState === CodeCollectState.answered)
                     && (
                         <CollectCodeQuestion
                             collectedCodeModel={collectedCodeModel}

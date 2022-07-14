@@ -25,16 +25,17 @@ class TestController extends Controller
 //            $code->save();
 
         $qrGenerator = new QrGenerator();
+        $qrGenerator->run("Nagroda za zajęcie 1 miejsca w konkursie QrContest\nFantasmagoria 2022");
 
-        $codes = Code::wherePoints(0)->get();
-
-        foreach ($codes as $code) {
-            $image = $qrGenerator->generate($code);
-
-            header('Content-type: image/jpeg');
-
-            imagepng($image, storage_path('app/codes/') . "$code->data.png", 5);
-            imagedestroy($image);
-        }
+//        $codes = Code::wherePoints(0)->get();
+//
+//        foreach ($codes as $code) {
+//            $image = $qrGenerator->generate($code);
+//
+//            header('Content-type: image/jpeg');
+//
+//            imagepng($image, storage_path('app/codes/') . "$code->data.png", 5);
+//            imagedestroy($image);
+//        }
     }
 }

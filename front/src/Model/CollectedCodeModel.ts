@@ -8,6 +8,7 @@ type CollectedCodeType = {
     code_points: number,
     question_current: object | null,
     question_answer: string | null,
+    question_correct_answer: string | null,
     question_points: number | null
     score: number,
     data: string,
@@ -31,6 +32,7 @@ export default class CollectedCodeModel extends Model {
     codePoints: number = 0;
     questionCurrent: Question | null = null;
     questionAnswer: string | null = null;
+    questionCorrectAnswer: string | null = null;
     questionPoints: number | null = null;
     score: number = 0;
     data: string = '';
@@ -41,6 +43,7 @@ export default class CollectedCodeModel extends Model {
         this.codeName = data.code_name;
         this.codePoints = data.code_points;
         this.questionCurrent = data.question_current as Question;
+        this.questionCorrectAnswer = data.question_correct_answer as string;
         this.questionPoints = data.question_points;
         this.score = data.score;
         this.collectedAt = new Date(data.collected_at);

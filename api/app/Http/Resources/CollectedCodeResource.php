@@ -18,6 +18,8 @@ class CollectedCodeResource extends JsonResource
         /** @var UserCollectedCode $collectedCode */
         $collectedCode = $this;
 
+        $questionAnswerPoints = ($collectedCode->question_answer === 0 ? $collectedCode->question->points : 0);
+
         return [
             UserCollectedCode::ID => $collectedCode->id,
             UserCollectedCode::V_CODE_NAME => $collectedCode->code->name,
@@ -28,11 +30,11 @@ class CollectedCodeResource extends JsonResource
                     : null,
             UserCollectedCode::V_QUESTION_POINTS =>
                 isset($collectedCode->question) && $collectedCode->question_answer !== null
-                    ? $collectedCode->question->points
+                    ? $questionAnswerPoints
                     : null,
             UserCollectedCode::V_QUESTION_CORRECT_ANSWER =>
                 isset($collectedCode->question) && $collectedCode->question_answer !== null
-                    ? $collectedCode->question->points
+                    ? $collectedCode->correct_answer
                     : null,
             UserCollectedCode::V_SCORE => $collectedCode->score,
             UserCollectedCode::V_COLLECTED_AT => $collectedCode->created_at

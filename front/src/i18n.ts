@@ -72,6 +72,7 @@ i18n
                     'Confirm': 'Potwierdź'
                 },
                 CollectCodeView: {
+                    'Go to question!': 'Pytanie proszę!',
                     'Back to dashboard': 'Powrót do ekranu głównego'
                 },
                 CollectCodeSuccess: {

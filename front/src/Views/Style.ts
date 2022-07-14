@@ -11,6 +11,15 @@ export const TextAlignClass: { alignCenter: CSSObject, alignRight: CSSObject } =
     alignCenter: { textAlign: 'center' }
 };
 
+export function CleanLinkClass (theme: MantineTheme): { cleanLink: CSSObject } {
+    return ({
+        cleanLink: {
+            textDecoration: 'none',
+            color: ThemeHelper.getTextColor(theme)
+        }
+    });
+}
+
 export function TileClass (theme: MantineTheme): { tile: CSSObject } {
     return ({
         tile: {
