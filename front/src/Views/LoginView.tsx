@@ -68,7 +68,7 @@ export default function LoginView (): JSX.Element {
         },
 
         errorMessages: {
-            name: t('Name should be at least 3 characters long.'),
+            name: t('Nickname should be at least 3 characters long.'),
             password: t('Password should be at least 8 characters long.')
         }
     });
@@ -101,7 +101,7 @@ export default function LoginView (): JSX.Element {
 
                 <Button type="submit">{t('Login')}</Button>
 
-                <Link to={Routes.register}>{t('I don\'t have an account!')}</Link>
+                <Button variant="subtle" onClick={() => navigate(Routes.register)}>{t('I don\'t have an account!')}</Button>
             </form>
         </div>
     );

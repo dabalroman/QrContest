@@ -21,10 +21,17 @@ class Auth {
         });
     }
 
-    public register (name: string, password: string): Promise<Object | null> {
+    public register (
+        name: string,
+        password: string,
+        passwordConfirm: string,
+        braceletId: string
+    ): Promise<Object | null> {
         const requestData: Object = {
             name,
-            password
+            password,
+            password_confirm: passwordConfirm,
+            bracelet_id: braceletId
         };
 
         return Bridge.postData(ApiEndpoint.register, requestData)

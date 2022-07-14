@@ -24,16 +24,26 @@ i18n
                     'Nickname should be at least 3 characters long.': 'Pseudonim musi mieć co najmniej 3 znaki.',
                     'Password': 'Hasło',
                     'Your secret password': 'Twoje tajne hasło',
-                    'Password should be at least 8 characters long.': 'Hasło musi mieć co najmniej 8 znaków.'
+                    'Password should be at least 8 characters long.': 'Hasło musi mieć co najmniej 8 znaków.',
+                    'I don\'t have an account!': 'Nie mam jeszcze konta!'
                 },
                 RegisterView: {
                     'Register': 'Zarejestruj się',
                     'Nickname': 'Pseudonim',
                     'Your nickname, other users will see this': 'Twój pseudonim - widoczny dla innych graczy',
                     'Nickname should be at least 3 characters long.': 'Pseudonim musi mieć co najmniej 3 znaki.',
+                    'Id of your bracelet. May be handy in case of password loss.':
+                        'Kod z opaski. Przyda się przy odbiorze nagród.',
+                    'See that code on your bracelet? Enter it here': 'Widzisz ten kod na twojej opasce?',
+                    'Bracelet id should be at least 3 characters long.': 'Kod opaski musi mieć co najmniej 3 znaki.',
                     'Password': 'Hasło',
                     'Your secret password': 'Twoje tajne hasło',
-                    'Password should be at least 8 characters long.': 'Hasło musi mieć co najmniej 8 znaków.'
+                    'Password confirmation': 'Potwierdzenie hasła',
+                    'Enter your secret password once again': 'Wpisz hasło jeszcze raz.',
+                    'Password should be at least 8 characters long.': 'Hasło musi mieć co najmniej 8 znaków.',
+                    'I want to log in!': 'Chcę się zalogować!',
+                    'Success! Please log in to start!': 'Sukces! Zaloguj się by rozpocząć rozgrywkę!',
+                    'Something went wrong, try again.': 'Coś poszło nie tak, spróbuj ponownie.'
                 },
                 Loader: {
                     'Beep, boop, biip, boop...': 'Beep, boop, biip, boop...',

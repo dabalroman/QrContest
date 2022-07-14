@@ -6,6 +6,7 @@ import { useForm } from '@mantine/hooks';
 import ThemeHelper from '../Utils/ThemeHelper';
 import Auth from '../Api/Auth';
 import Routes from './routes';
+import { CleanLinkClass } from './Style';
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const useStyles =
@@ -26,6 +27,7 @@ const useStyles =
         },
 
         form: {
+            marginBottom: '20%',
             width: '100%',
             display: 'grid',
             gridGap: 20,
@@ -48,7 +50,9 @@ export default function RegisterView (): JSX.Element {
 
     interface FormValues {
         name: string;
+        braceletId: string;
         password: string;
+        passwordConfirm: string;
     }
 
     const {
@@ -58,24 +62,34 @@ export default function RegisterView (): JSX.Element {
     } = useForm<FormValues>({
         initialValues: {
             name: '',
-            password: ''
+            braceletId: '',
+            password: '',
+            passwordConfirm: ''
         },
 
         validationRules: {
             name: (value: string) => value.trim().length >= 3,
-            password: (value: string) => value.trim().length >= 8
+            braceletId: (value: string) => value.trim().length >= 3,
+            password: (value: string) => value.trim().length >= 8,
+            passwordConfirm: (value: string) => value.trim().length >= 8
         },
 
         errorMessages: {
-            name: t('Name should be at least 3 characters long.'),
-            password: t('Password should be at least 8 characters long.')
+            name: t('Nickname should be at least 3 characters long.'),
+            braceletId: t('Bracelet id should be at least 3 characters long.'),
+            password: t('Password should be at least 8 characters long.'),
+            passwordConfirm: t('Password should be at least 8 characters long.')
         }
     });
 
     const register = () => {
-        Auth.register(values.name, values.password)
-            .then(() => navigate(Routes.dashboard))
-            .catch(() => alert('Something went wrong'));
+        Auth.register(values.name, values.password, values.passwordConfirm, values.braceletId)
+            .then(() => {
+                alert(t('Success! Please log in to start!'));
+                navigate(Routes.login);
+            })
+            // eslint-disable-next-line no-alert
+            .catch(() => alert(t('Something went wrong, try again.')));
     };
 
     /* eslint-disable react/jsx-props-no-spreading */
@@ -91,6 +105,13 @@ export default function RegisterView (): JSX.Element {
                     {...(getInputProps('name'))}
                 />
 
+                <TextInput
+                    required
+                    label={t('Id of your bracelet. May be handy in case of password loss.')}
+                    placeholder={t('See that code on your bracelet? Enter it here')}
+                    {...(getInputProps('braceletId'))}
+                />
+
                 <PasswordInput
                     required
                     label={t('Password')}
@@ -98,9 +119,16 @@ export default function RegisterView (): JSX.Element {
                     {...getInputProps('password')}
                 />
 
+                <PasswordInput
+                    required
+                    label={t('Password confirmation')}
+                    placeholder={t('Enter your secret password once again')}
+                    {...getInputProps('passwordConfirm')}
+                />
+
                 <Button type="submit">{t('Register')}</Button>
 
-                <Link to={Routes.login}>{t('I want to log in!')}</Link>
+                <Button variant="subtle" onClick={() => navigate(Routes.login)}>{t('I want to log in!')}</Button>
             </form>
         </div>
     );

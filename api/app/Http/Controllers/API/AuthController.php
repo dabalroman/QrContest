@@ -20,6 +20,7 @@ class AuthController extends Controller
         $validationRules = [
             User::NAME => 'required|string|min:3|max:255|unique:users',
             User::PASSWORD => 'required|string|min:8|max:255',
+            User::PASSWORD_CONFIRM => 'required|string|min:8|max:255|same:password',
             User::BRACELET_ID => 'string'
         ];
 
@@ -32,8 +33,9 @@ class AuthController extends Controller
 
         $user = User::create($requestData);
         $user->is_admin = false;
-        $user->is_public = false;
+        $user->is_public = true;
         $user->is_suspended = false;
+
         $user->updateScore();
         $user->save();
 
@@ -43,8 +45,8 @@ class AuthController extends Controller
     public function login(Request $request): JsonResponse
     {
         $validationRules = [
-            User::NAME => 'required|string|min:5',
-            User::PASSWORD => 'required|string|min:8'
+            User::NAME => 'required|string|min:3|max:255',
+            User::PASSWORD => 'required|string|min:8|max:255'
         ];
 
         if (!$this->validateRequestData($request, $validationRules)) {
@@ -53,7 +55,7 @@ class AuthController extends Controller
 
         $requestData = $request->all();
 
-        if (!Auth::attempt([User::NAME => $requestData[User::NAME], 'password' => $requestData[User::PASSWORD]])) {
+        if (!Auth::attempt([User::NAME => $requestData[User::NAME], User::PASSWORD => $requestData[User::PASSWORD]])) {
             return $this->errorResponse(['Wrong password.'], Response::HTTP_UNAUTHORIZED);
         }
 

@@ -72,10 +72,12 @@ final class User extends Authenticable
     public const IS_ADMIN = 'is_admin';
 
     public const NEW_PASSWORD = 'new_password';
+    public const PASSWORD_CONFIRM = 'password_confirm';
 
     protected $fillable = [
         self::NAME,
         self::PASSWORD,
+        self::BRACELET_ID,
         self::SCORE
     ];
 
