@@ -64,7 +64,12 @@ export default function DashboardView (): JSX.Element {
             <StandingsTile/>
             <CollectedCodesTile/>
             <div className={ThemeHelper.classes(classes.tile)}>
-                <h1>Inne</h1>
+                <h1>Nagrody</h1>
+                <b>W puli nagród jest ponad 200 fantów!</b>
+                <p>To tutaj pojawi się informacja o zwycięzcach.</p>
+                <p>Tura pierwsza trwa do godziny 14:00 w sobotę.<br/>Tura druga trwa do godziny 12:00 w niedzielę.</p>
+            </div>
+            <div className={ThemeHelper.classes(classes.tile)}>
                 <div className={classes.braceletId}>{user.name}#{user.braceletId}</div>
                 <Button
                     fullWidth

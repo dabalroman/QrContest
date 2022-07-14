@@ -13,7 +13,8 @@ const useStyles =
             right: 15,
             fontSize: '1em',
             height: 50,
-            borderRadius: 10
+            borderRadius: 10,
+            boxShadow: '4px 4px 3px 2px #00000099'
         },
 
         buttonPlaceholder: {

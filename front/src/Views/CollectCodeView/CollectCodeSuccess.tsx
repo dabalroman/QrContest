@@ -20,7 +20,7 @@ export default function CollectCodeSuccess (props: CollectCodeSuccessProps) {
     return (
         <>
             <h1>{t('Success!')}</h1>
-            <span>{props.collectedCodeModel?.codeName}</span>
+            <h2>{props.collectedCodeModel?.codeName}</h2>
             <CircleCheck className={classes.iconGreen} size={150}/>
             <code>{props.code}</code>
             <h1>+{props.collectedCodeModel?.score} pkt</h1>

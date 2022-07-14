@@ -37,7 +37,7 @@ const useStyles =
                 zIndex: 100
             },
 
-            '> h1': {
+            '> h1, h2': {
                 margin: 0
             },
 

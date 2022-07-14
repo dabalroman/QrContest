@@ -25,13 +25,17 @@ function App () {
                 setSessionActive(isSessionRestored);
                 setLoading(false);
 
-                const onPublicPage: boolean =
+                const onAuthPage: boolean =
                     location.pathname === Routes.login
-                    || location.pathname === Routes.register
-                    || location.pathname === Routes.help;
+                    || location.pathname === Routes.register;
+
+                const onPublicPage: boolean =
+                    onAuthPage
+                    || location.pathname === Routes.help
+                    || location.pathname === Routes.rulebook;
 
                 if (isSessionRestored) {
-                    if (onPublicPage) {
+                    if (onAuthPage) {
                         navigate(Routes.dashboard);
                     }
                 } else if (!onPublicPage) {
