@@ -18,7 +18,7 @@ class CodeController extends Controller
             return $this->notAuthorisedResponse();
         }
 
-        $codes = Code::orderBy(Code::DATA)->get();
+        $codes = Code::orderByDesc(Code::IS_ACTIVE)->orderBy(Code::DATA)->get();
 
         return $this->successResponse(CodeResource::collection($codes));
     }

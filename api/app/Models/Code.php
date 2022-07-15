@@ -51,6 +51,8 @@ final class Code extends ApiModel
     public const DESCRIPTION = 'description';
     public const IS_ACTIVE = 'is_active';
     public const WITH_QUESTION = 'with_question';
+    public const V_COLLECTED_BY = 'collected_by';
+
 
     public const CHARSET = 'ABCDEFGHIJKLMNOPQRSUVXYZ0123456789';
 
@@ -87,7 +89,8 @@ final class Code extends ApiModel
 
     public function collects(): HasMany
     {
-        return $this->hasMany(UserCollectedCode::class, UserCollectedCode::CODE_ID, self::ID);
+        return $this->hasMany(UserCollectedCode::class, UserCollectedCode::CODE_ID, self::ID)
+            ->orderByDesc(UserCollectedCode::ID);
     }
 
     public function getCollectUrlAttribute(): string

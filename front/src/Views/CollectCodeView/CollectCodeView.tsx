@@ -15,7 +15,7 @@ import CollectCodeSuccess from './CollectCodeSuccess';
 import CollectCodeError from './CollectCodeError';
 import ThemeHelper from '../../Utils/ThemeHelper';
 import CollectCodeQuestion from './CollectCodeQuestion';
-import CollectCodeAdmin from './CollectCodeAdmin';
+import CodeView from '../CodeView';
 
 enum CodeCollectState {
     pending = 0,
@@ -181,7 +181,7 @@ export default function CollectCodeView (): JSX.Element {
                     )}
 
                 {(codeCollectState === CodeCollectState.admin)
-                    && <CollectCodeAdmin code={code ?? null}/>}
+                    && <CodeView code={code ?? null}/>}
 
 
                 {(codeCollectState !== CodeCollectState.question && codeCollectState !== CodeCollectState.pending)

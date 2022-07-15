@@ -35,21 +35,33 @@ class UserController extends Controller
         return $this->successResponse(new UserResource($user));
     }
 
-    public function update(Request $request): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
+        if (!$this->currentUser->isAdmin()) {
+            return $this->notAuthorisedResponse();
+        }
+
         $validationRules = [
-            User::NAME => 'string|max:255',
+            User::NAME => 'string|min:3|max:16|unique:users',
+            User::IS_PUBLIC => 'boolean',
+            User::IS_SUSPENDED => 'boolean',
+            User::BRACELET_ID => 'string'
         ];
 
         if (!$this->validateRequestData($request, $validationRules)) {
             return $this->errorResponse($this->validationErrors);
         }
 
+        $user = User::find($id);
+
+        if (is_null($user)) {
+            return $this->notFoundResponse();
+        }
+
         $requestData = $request->all();
+        $user->fill($requestData);
+        $user->save();
 
-        $this->currentUser->fill($requestData);
-        $this->currentUser->save();
-
-        return $this->successResponse(new UserResource($this->currentUser));
+        return $this->successResponse(new UserResource($user));
     }
 }

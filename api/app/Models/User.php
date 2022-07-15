@@ -78,7 +78,8 @@ final class User extends Authenticable
         self::NAME,
         self::PASSWORD,
         self::BRACELET_ID,
-        self::SCORE
+        self::IS_PUBLIC,
+        self::IS_SUSPENDED
     ];
 
     protected $hidden = [

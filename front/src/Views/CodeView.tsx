@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Button, createStyles, MantineTheme, NumberInput, SegmentedControl, Switch, TextInput } from '@mantine/core';
+import { Button, createStyles, MantineTheme, NumberInput, SegmentedControl, TextInput } from '@mantine/core';
 import { useForceUpdate, useForm } from '@mantine/hooks';
-import { ColorfulIconClass } from '../Style';
-import CodeModel from '../../Model/CodeModel';
-import Model from '../../Model/Model';
-import ThemeHelper from '../../Utils/ThemeHelper';
+import { ColorfulIconClass } from './Style';
+import CodeModel from '../Model/CodeModel';
+import Model from '../Model/Model';
+import ThemeHelper from '../Utils/ThemeHelper';
+import UserModel from '../Model/UserModel';
 
 export type CollectCodeAdminProps = { code: string | null };
 
@@ -23,13 +24,18 @@ const useStyles =
             '> h2': {
                 margin: 0,
                 textAlign: 'center'
+            },
+
+            p: {
+                margin: 0,
+                textAlign: 'center'
             }
         },
 
         ...ColorfulIconClass(theme)
     })) as Function;
 
-export default function CollectCodeAdmin (props: CollectCodeAdminProps) {
+export default function CodeView (props: CollectCodeAdminProps) {
     const { classes } = useStyles();
     const forceUpdate: Function = useForceUpdate();
 
@@ -90,12 +96,17 @@ export default function CollectCodeAdmin (props: CollectCodeAdminProps) {
             });
     }, []);
 
+    const collects: string = (codeModel?.collectedBy ?? []).map((userModel: UserModel) => userModel.name).join(', ');
+
     /* eslint-disable react/jsx-props-no-spreading */
     // noinspection TypeScriptValidateTypes
     return (
         <div>
             <form className={classes.form} onSubmit={onSubmit(save)}>
                 <h2>{codeModel?.data}</h2>
+                <p>Zebrany {codeModel?.collectedBy.length ?? 0} razy.</p>
+                <p>{collects}</p>
+
                 <TextInput
                     required
                     label="Nazwa (Widoczna dla wszystkich)"
@@ -120,7 +131,10 @@ export default function CollectCodeAdmin (props: CollectCodeAdminProps) {
                 <small>Pytanie?</small>
                 <SegmentedControl
                     value={`${values.with_question}`}
-                    onChange={(value: string) => { values.with_question = parseInt(value, 10); forceUpdate(); }}
+                    onChange={(value: string) => {
+                        values.with_question = parseInt(value, 10);
+                        forceUpdate();
+                    }}
                     data={[
                         {
                             label: 'Tak',
@@ -136,7 +150,10 @@ export default function CollectCodeAdmin (props: CollectCodeAdminProps) {
                 <small>Aktywny?</small>
                 <SegmentedControl
                     value={`${values.is_active}`}
-                    onChange={(value: string) => { values.is_active = parseInt(value, 10); forceUpdate(); }}
+                    onChange={(value: string) => {
+                        values.is_active = parseInt(value, 10);
+                        forceUpdate();
+                    }}
                     data={[
                         {
                             label: 'Tak',

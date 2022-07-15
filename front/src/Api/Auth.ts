@@ -1,6 +1,6 @@
 import Bridge from './Bridge';
 import { ApiEndpoint } from './ApiUrls';
-import UserModel from '../Model/User/UserModel';
+import UserModel from '../Model/UserModel';
 
 class Auth {
     private ready: boolean = false;

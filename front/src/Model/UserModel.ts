@@ -1,13 +1,15 @@
-import Model from '../Model';
-import { ApiEndpoint } from '../../Api/ApiUrls';
-import Bridge, { BridgeRequestMethod } from '../../Api/Bridge';
+import Model from './Model';
+import { ApiEndpoint } from '../Api/ApiUrls';
+import Bridge, { BridgeRequestMethod } from '../Api/Bridge';
 
 type UserDataType = {
     id: number,
     name: string,
     score: number,
-    bracelet_id: number,
-    is_admin: boolean,
+    bracelet_id: string,
+    is_admin: number,
+    is_public: number,
+    is_suspended: number,
     created_at: string
 };
 
@@ -17,8 +19,10 @@ export default class UserModel extends Model {
     name: string;
     password: string | null = null;
     score: number = 0;
-    braceletId: number = 0;
-    isAdmin: boolean = false;
+    braceletId: string = '';
+    isAdmin: number = 0;
+    isPublic: number = 1;
+    isSuspended: number = 0;
     createdAt: string = '';
 
     constructor (name: string = '') {
@@ -33,24 +37,25 @@ export default class UserModel extends Model {
         this.score = data.score;
         this.braceletId = data.bracelet_id;
         this.isAdmin = data.is_admin;
+        this.isPublic = data.is_public;
+        this.isSuspended = data.is_suspended;
         this.createdAt = data.created_at;
 
         return this;
     }
 
     protected dehydrate (method: BridgeRequestMethod): Object {
+        if (method !== BridgeRequestMethod.PUT) {
+            throw new Error('Can\'t create user via model!');
+        }
         return (
-            method === BridgeRequestMethod.POST
-                ? {
-                    name: this.name,
-                    password: this.password,
-                    password_confirmation: this.password,
-                    bracelet_id: this.braceletId
-                }
-                : {
-                    name: this.name,
-                    password: this.password ?? undefined
-                }
+            {
+                name: this.name,
+                password: this.password,
+                bracelet_id: this.braceletId,
+                is_public: this.isPublic,
+                is_suspended: this.isSuspended
+            }
         );
     }
 

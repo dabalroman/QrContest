@@ -1,6 +1,7 @@
 import Model from './Model';
 import { ApiEndpoint } from '../Api/ApiUrls';
 import { BridgeRequestMethod } from '../Api/Bridge';
+import UserModel from './UserModel';
 
 type CodeModelType = {
     id?: number,
@@ -9,6 +10,7 @@ type CodeModelType = {
     data?: string | null,
     is_active?: number,
     with_question?: number,
+    collected_by?: UserModel[],
     points: number
 };
 
@@ -20,6 +22,7 @@ export default class CodeModel extends Model {
     data: string = '';
     isActive: number = 1;
     withQuestion: number = 0;
+    collectedBy: UserModel[] = [];
     points: number = 0;
 
     public static dataRegex: RegExp = /^[\w\d]{3,}$/;
@@ -37,6 +40,8 @@ export default class CodeModel extends Model {
         this.data = data.data ?? '';
         this.isActive = data.is_active ?? 1;
         this.withQuestion = data.with_question ?? 0;
+        this.collectedBy =
+            (data.collected_by ?? []).map((rawModel: UserModel) => UserModel.fromData(rawModel) as UserModel);
         this.points = data.points;
 
         return this;

@@ -11,6 +11,8 @@ import RequireSession from './Views/Middleware/RequireSession';
 import CollectCodeView from './Views/CollectCodeView/CollectCodeView';
 import HelpView from './Views/HelpView';
 import RulebookView from './Views/RulebookView';
+import UserView from './Views/UserView';
+import RequireAdmin from './Views/Middleware/RequireAdmin';
 
 function App () {
     const navigate: NavigateFunction = useNavigate();
@@ -87,6 +89,7 @@ function App () {
             <Router>
                 <Route path={Routes.dashboard} element={<RequireSession><DashboardView/></RequireSession>}/>
                 <Route path={Routes.code} element={<RequireSession><CollectCodeView/></RequireSession>}/>
+                <Route path={Routes.user} element={<RequireAdmin><UserView/></RequireAdmin>}/>
                 <Route path={Routes.login} element={<LoginView/>}/>
                 <Route path={Routes.register} element={<RegisterView/>}/>
                 <Route path={Routes.help} element={<HelpView/>}/>

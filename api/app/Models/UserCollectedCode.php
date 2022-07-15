@@ -35,6 +35,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|UserCollectedCode whereUserId($value)
  * @mixin Eloquent
  * @property-read string|null $correct_answer
+ * @property-read User|null $user
  */
 final class UserCollectedCode extends ApiModel
 {
@@ -89,6 +90,11 @@ final class UserCollectedCode extends ApiModel
     public function question(): HasOne
     {
         return $this->hasOne(Question::class, Question::ID, self::QUESTION_ID);
+    }
+
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class, User::ID, self::USER_ID);
     }
 
     /**

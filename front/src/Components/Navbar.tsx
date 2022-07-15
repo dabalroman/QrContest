@@ -4,7 +4,7 @@ import { QuestionMark } from 'tabler-icons-react';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import { CleanLinkClass, TextAlignClass } from '../Views/Style';
 import Auth from '../Api/Auth';
-import UserModel from '../Model/User/UserModel';
+import UserModel from '../Model/UserModel';
 import ThemeHelper from '../Utils/ThemeHelper';
 import Routes from '../Views/routes';
 

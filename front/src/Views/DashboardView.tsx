@@ -3,7 +3,7 @@ import { Button, createStyles, MantineTheme } from '@mantine/core';
 import { NavigateFunction, useNavigate } from 'react-router-dom';
 import Auth from '../Api/Auth';
 import Routes from './routes';
-import UserModel from '../Model/User/UserModel';
+import UserModel from '../Model/UserModel';
 import ThemeHelper from '../Utils/ThemeHelper';
 import { TileClass } from './Style';
 import CollectedCodesTile from './Tiles/CollectedCodesTile';

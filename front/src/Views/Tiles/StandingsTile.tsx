@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { createStyles, MantineTheme, Table } from '@mantine/core';
+import { Link } from 'react-router-dom';
 import ThemeHelper from '../../Utils/ThemeHelper';
 import InlineLoader from '../../Components/InlineLoader';
-import { TileClass } from '../Style';
+import { CleanLinkClass, TileClass } from '../Style';
 import Model from '../../Model/Model';
 import UserStandingsModel from '../../Model/UserStandingModel';
 import Auth from '../../Api/Auth';
@@ -52,7 +53,8 @@ const useStyles =
             fontWeight: 'bold'
         },
 
-        ...TileClass(theme)
+        ...TileClass(theme),
+        ...CleanLinkClass(theme)
     })) as Function;
 
 export default function StandingsTile () {
@@ -74,7 +76,11 @@ export default function StandingsTile () {
         userStandings?.map((userStanding: UserStandingsModel, index: number) => (
             <tr key={userStanding.id} className={(userStanding.id === myId ? classes.rowMe as string : '')}>
                 <td>{index + 1}.</td>
-                <td>{userStanding.name}</td>
+                <td>
+                    {Auth.getCurrentUser().isAdmin
+                        ? <Link className={classes.cleanLink} to={`/user/${userStanding.id}`}>{userStanding.name}</Link>
+                        : userStanding.name}
+                </td>
                 <td>{userStanding.score} pkt</td>
             </tr>
         )) ?? null;
