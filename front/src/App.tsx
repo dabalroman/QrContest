@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Global, LoadingOverlay, MantineProvider, MantineTheme, MantineThemeOverride } from '@mantine/core';
+import { Button, Global, LoadingOverlay, MantineProvider, MantineTheme, MantineThemeOverride } from '@mantine/core';
 import { Location, NavigateFunction, Route, Routes as Router, useLocation, useNavigate } from 'react-router-dom';
 import Auth from './Api/Auth';
 import ThemeHelper from './Utils/ThemeHelper';
@@ -16,7 +16,7 @@ function App () {
     const navigate: NavigateFunction = useNavigate();
     const location: Location = useLocation();
 
-    const [sessionActive, setSessionActive] = useState<boolean>(false);
+    const [, setSessionActive] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -91,7 +91,18 @@ function App () {
                 <Route path={Routes.register} element={<RegisterView/>}/>
                 <Route path={Routes.help} element={<HelpView/>}/>
                 <Route path={Routes.rulebook} element={<RulebookView/>}/>
-                <Route path="*" element={<p>404</p>}/>
+                <Route
+                    path="*"
+                    element={(
+                        <Button
+                            onClick={() => navigate(Routes.login)}
+                            variant="filled"
+                            fullWidth
+                        >
+                            Powrót
+                        </Button>
+                    )}
+                />
             </Router>
         </MantineProvider>
     );

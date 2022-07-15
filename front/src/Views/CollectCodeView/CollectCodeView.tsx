@@ -15,13 +15,15 @@ import CollectCodeSuccess from './CollectCodeSuccess';
 import CollectCodeError from './CollectCodeError';
 import ThemeHelper from '../../Utils/ThemeHelper';
 import CollectCodeQuestion from './CollectCodeQuestion';
+import CollectCodeAdmin from './CollectCodeAdmin';
 
 enum CodeCollectState {
     pending = 0,
     success = 1,
     question = 2,
     answered = 3,
-    error = 4
+    error = 4,
+    admin = 100
 }
 
 // eslint-disable-next-line @typescript-eslint/typedef
@@ -86,6 +88,11 @@ export default function CollectCodeView (): JSX.Element {
     const [questionMode, setQuestionMode] = useState<boolean>(false);
 
     const collectCode = (data: string) => {
+        if (Auth.getCurrentUser().isAdmin) {
+            setCodeCollectState(CodeCollectState.admin);
+            return;
+        }
+
         if (hasCodeBeenSentToServerAlready) {
             return;
         }
@@ -172,6 +179,10 @@ export default function CollectCodeView (): JSX.Element {
                             confirmQuestionAnswered={confirmQuestionAnswered}
                         />
                     )}
+
+                {(codeCollectState === CodeCollectState.admin)
+                    && <CollectCodeAdmin code={code ?? null}/>}
+
 
                 {(codeCollectState !== CodeCollectState.question && codeCollectState !== CodeCollectState.pending)
                     && returnButton}

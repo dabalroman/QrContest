@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import { ActionIcon, Button, createStyles, MantineTheme, PasswordInput, TextInput } from '@mantine/core';
+import { Button, createStyles, MantineTheme, PasswordInput, TextInput } from '@mantine/core';
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm } from '@mantine/hooks';
-import { QuestionMark } from 'tabler-icons-react';
 import ThemeHelper from '../Utils/ThemeHelper';
 import Auth from '../Api/Auth';
 import Routes from './routes';

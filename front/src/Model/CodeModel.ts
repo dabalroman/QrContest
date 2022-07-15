@@ -7,8 +7,8 @@ type CodeModelType = {
     name: string,
     description?: string,
     data?: string | null,
-    is_active?: boolean,
-    with_question?: boolean,
+    is_active?: number,
+    with_question?: number,
     points: number
 };
 
@@ -18,8 +18,8 @@ export default class CodeModel extends Model {
     name: string;
     description: string = '';
     data: string = '';
-    isActive: boolean = true;
-    withQuestion: boolean = false;
+    isActive: number = 1;
+    withQuestion: number = 0;
     points: number = 0;
 
     public static dataRegex: RegExp = /^[\w\d]{3,}$/;
@@ -35,8 +35,8 @@ export default class CodeModel extends Model {
         this.name = data.name;
         this.description = data.description ?? '';
         this.data = data.data ?? '';
-        this.isActive = data.is_active ?? true;
-        this.withQuestion = data.with_question ?? false;
+        this.isActive = data.is_active ?? 1;
+        this.withQuestion = data.with_question ?? 0;
         this.points = data.points;
 
         return this;

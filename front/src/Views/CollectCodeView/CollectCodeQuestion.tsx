@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Button, createStyles, MantineColor, MantineTheme } from '@mantine/core';
-import { useTranslation } from 'react-i18next';
 import { useInterval } from '@mantine/hooks';
 import { ColorfulIconClass } from '../Style';
 import CollectedCodeModel from '../../Model/CollectedCodeModel';
 import ThemeHelper from '../../Utils/ThemeHelper';
+import Auth from '../../Api/Auth';
 
 export type CollectCodeQuestionProps = {
     collectedCodeModel: CollectedCodeModel | null,
@@ -60,7 +60,6 @@ const useStyles =
     })) as Function;
 
 export default function CollectCodeQuestion (props: CollectCodeQuestionProps) {
-    const { t } = useTranslation('CollectCodeQuestion');
     const { classes } = useStyles();
 
     const [secondsLeft, setSecondsLeft] = useState(20);
@@ -94,6 +93,11 @@ export default function CollectCodeQuestion (props: CollectCodeQuestionProps) {
             props.collectedCodeModel.put()
                 .then(() => {
                     setCorrectAnswer(props.collectedCodeModel?.questionCorrectAnswer ?? 'x');
+
+                    if (props.collectedCodeModel?.questionCorrectAnswer === answerCharId) {
+                        Auth.getCurrentUser().score += props.collectedCodeModel.questionPoints ?? 0;
+                    }
+
                     props.confirmQuestionAnswered();
                 })
                 .catch(() => console.log('Error!'));

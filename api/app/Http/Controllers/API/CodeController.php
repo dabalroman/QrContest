@@ -18,18 +18,19 @@ class CodeController extends Controller
             return $this->notAuthorisedResponse();
         }
 
-        $codes = Code::latest()->get();
+        $codes = Code::orderBy(Code::DATA)->get();
 
         return $this->successResponse(CodeResource::collection($codes));
     }
 
-    public function show(int $id): JsonResponse
+    public function show(string $code): JsonResponse
     {
         if (!$this->currentUser->isAdmin()) {
             return $this->notAuthorisedResponse();
         }
 
-        $code = Code::find($id);
+        /** @noinspection CallableParameterUseCaseInTypeContextInspection */
+        $code = Code::whereData($code)->first();
 
         if (is_null($code)) {
             return $this->notFoundResponse();

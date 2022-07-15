@@ -62,7 +62,7 @@ export default class Bridge {
 
     public static getData (
         endpoint: ApiEndpoint,
-        id: number | null = null,
+        id: number | string | null = null,
         args: UrlArgument[] | null = null
     ): Promise<Object | null> {
         let url: string = this.getUrl(endpoint);

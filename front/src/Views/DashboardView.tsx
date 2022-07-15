@@ -10,6 +10,7 @@ import CollectedCodesTile from './Tiles/CollectedCodesTile';
 import Navbar from '../Components/Navbar';
 import CollectCodeTile from './Tiles/CollectCodeTile';
 import StandingsTile from './Tiles/StandingsTile';
+import AllCodesTile from './Tiles/AllCodesTile';
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const useStyles =
@@ -63,6 +64,7 @@ export default function DashboardView (): JSX.Element {
             <CollectCodeTile/>
             <StandingsTile/>
             <CollectedCodesTile/>
+            {user.isAdmin && <AllCodesTile/>}
             <div className={ThemeHelper.classes(classes.tile)}>
                 <h1>Nagrody</h1>
                 <b>W puli nagród jest ponad 200 fantów!</b>

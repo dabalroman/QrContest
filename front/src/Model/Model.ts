@@ -24,7 +24,7 @@ export default abstract class Model {
             });
     }
 
-    public static get (id: number): Promise<Model> {
+    public static get (id: number | string): Promise<Model> {
         // @ts-ignore
         const model: Model = new this();
 

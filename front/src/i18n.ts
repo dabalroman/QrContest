@@ -33,7 +33,7 @@ i18n
                     'Your nickname, other users will see this': 'Twój pseudonim - widoczny dla innych graczy',
                     'Nickname should be at least 3 characters long.': 'Pseudonim musi mieć co najmniej 3 znaki.',
                     'Id of your bracelet. May be handy in case of password loss.':
-                        'Kod z opaski. Przyda się przy odbiorze nagród.',
+                        'Kod z opaski. Przyda się przy odbiorze nagród. Możesz wpisać również \'brak\'.',
                     'See that code on your bracelet? Enter it here': 'Widzisz ten kod na twojej opasce?',
                     'Bracelet id should be at least 3 characters long.': 'Kod opaski musi mieć co najmniej 3 znaki.',
                     'Password': 'Hasło',

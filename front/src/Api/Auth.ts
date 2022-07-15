@@ -40,12 +40,6 @@ class Auth {
                     throw new Error(`[Auth] Register failed with message ${response.message}`);
                 }
 
-                this.user = UserModel.fromData(response.data) as UserModel;
-                this.ready = true;
-
-                // eslint-disable-next-line no-console
-                console.log(`[Auth] Logged in as ${this.user.id}`);
-
                 return response;
             });
     }
