@@ -42,7 +42,7 @@ class UserController extends Controller
         }
 
         $validationRules = [
-            User::NAME => 'string|min:3|max:16|unique:users',
+            User::NAME => 'string|min:3|max:16',
             User::IS_PUBLIC => 'boolean',
             User::IS_SUSPENDED => 'boolean',
             User::BRACELET_ID => 'string'

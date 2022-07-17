@@ -12,5 +12,6 @@ export enum ApiEndpoint {
     refresh = 'refresh',
     codes = 'codes',
     collectedCodes = 'collected_codes',
-    standings = 'standings'
+    standings = 'standings',
+    settings = 'settings'
 }

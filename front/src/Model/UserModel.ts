@@ -48,10 +48,10 @@ export default class UserModel extends Model {
         if (method !== BridgeRequestMethod.PUT) {
             throw new Error('Can\'t create user via model!');
         }
+
         return (
             {
                 name: this.name,
-                password: this.password,
                 bracelet_id: this.braceletId,
                 is_public: this.isPublic,
                 is_suspended: this.isSuspended

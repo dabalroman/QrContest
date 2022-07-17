@@ -11,6 +11,7 @@ import Navbar from '../Components/Navbar';
 import CollectCodeTile from './Tiles/CollectCodeTile';
 import StandingsTile from './Tiles/StandingsTile';
 import AllCodesTile from './Tiles/AllCodesTile';
+import AwardsTile from './Tiles/AwardsTile';
 
 // eslint-disable-next-line @typescript-eslint/typedef
 const useStyles =
@@ -62,15 +63,10 @@ export default function DashboardView (): JSX.Element {
                 {user.score !== 0 ? 'Ilość zgromadzonych punktów' : 'Znajdź i zeskanuj swój pierwszy kod!'}
             </div>
             <CollectCodeTile/>
+            <AwardsTile/>
             <StandingsTile/>
             <CollectedCodesTile/>
-            {user.isAdmin && <AllCodesTile/>}
-            <div className={ThemeHelper.classes(classes.tile)}>
-                <h1>Nagrody</h1>
-                <b>W puli nagród jest ponad 200 fantów!</b>
-                <p>To tutaj pojawi się informacja o zwycięzcach.</p>
-                <p>Tura pierwsza trwa do godziny 14:00 w sobotę.<br/>Tura druga trwa do godziny 12:00 w niedzielę.</p>
-            </div>
+            {user.isAdmin ? <AllCodesTile/> : null}
             <div className={ThemeHelper.classes(classes.tile)}>
                 <div className={classes.braceletId}>{user.name}#{user.braceletId}</div>
                 <Button
