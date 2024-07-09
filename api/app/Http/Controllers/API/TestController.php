@@ -12,11 +12,16 @@ class TestController extends Controller
 {
     public function index(): void
     {
-//        $code = new Code();
-//        $code->data = Code::generateRandomData();
-//        $code->name = '';
-//        $code->points = 0;
-//        $code->is_active = false;
+        $codes = [];
+
+        for ($i = 0; $i < 1; $i++) {
+            $code = new Code();
+            $code->data = Code::generateRandomData();
+//            $code->name = '';
+//            $code->points = 0;
+//            $code->is_active = false;
+            $codes[] = $code;
+        }
 
 //        try {
 //            $code->points = random_int(5, 15);
@@ -25,17 +30,19 @@ class TestController extends Controller
 //            $code->save();
 
         $qrGenerator = new QrGenerator();
-        $qrGenerator->run("Nagroda za zajęcie 1 miejsca w konkursie QrContest\nFantasmagoria 2022");
+//        $qrGenerator->run("Nagroda za zajęcie 1 miejsca w konkursie QrContest\nFantasmagoria 2022");
 
-//        $codes = Code::wherePoints(0)->get();
+
+        echo array_reduce($codes, static fn(string $carry, Code $code) => $carry . "'" . $code->data . "', ", '');
 //
-//        foreach ($codes as $code) {
-//            $image = $qrGenerator->generate($code);
-//
-//            header('Content-type: image/jpeg');
-//
-//            imagepng($image, storage_path('app/codes/') . "$code->data.png", 5);
-//            imagedestroy($image);
-//        }
+        foreach ($codes as $code) {
+            $image = $qrGenerator->generate($code);
+
+            header('Content-type: image/jpeg');
+
+            imagepng($image, storage_path('app/codes/2024/') . "$code->data.png", 5);
+//            imagepng($image, storage_path('app/codes/2024/') . "x.png", 5);
+            imagedestroy($image);
+        }
     }
 }

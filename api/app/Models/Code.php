@@ -54,7 +54,7 @@ final class Code extends ApiModel
     public const V_COLLECTED_BY = 'collected_by';
 
 
-    public const CHARSET = 'ABCDEFGHIJKLMNOPQRSUVXYZ0123456789';
+    public const CHARSET = 'ABCDEFGHJKLMNPQRSTUWVXYZ123456789';
 
     protected $fillable = [
         self::NAME,

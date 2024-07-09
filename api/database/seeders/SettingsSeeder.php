@@ -18,6 +18,11 @@ class SettingsSeeder extends Seeder
                     Setting::NAME => 'active',
                     Setting::VALUE => '1'
                 ],
+                [
+                    Setting::ID => 2,
+                    Setting::NAME => 'awards_info',
+                    Setting::VALUE => '<b>W puli nagród jest ponad 200 fantów</b><br/>To tutaj pojawi się informacja o zwycięzcach.<br/>Tura pierwsza trwa do godziny 14:00 w sobotę.<br/>Tura druga trwa do godziny 12:00 w niedzielę.'
+                ],
             ]
         );
     }

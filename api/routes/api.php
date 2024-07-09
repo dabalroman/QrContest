@@ -6,12 +6,13 @@ use App\Http\Controllers\API\CodeController;
 use App\Http\Controllers\API\CollectCodeController;
 use App\Http\Controllers\API\SettingsController;
 use App\Http\Controllers\API\StandingsController;
+use App\Http\Controllers\API\TestController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-//Route::resource('test', TestController::class);
+Route::resource('test', TestController::class);
 Route::resource('settings', SettingsController::class)->except('update');
 
 Route::group(

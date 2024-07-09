@@ -40,7 +40,7 @@ class QrGenerator
     {
         $options = new QROptions([
             'version' => 4,
-            'outputType' => QRCode::OUTPUT_MARKUP_SVG,
+            'outputType' => QRCode::OUTPUT_IMAGE_JPG,
             'eccLevel' => QRCode::ECC_M,
             'cssClass' => 'qrcode',
             'scale' => 27,
@@ -105,8 +105,8 @@ class QrGenerator
 
     protected function drawBackgroundText(Code $code): void
     {
-        $bgTextColor = imagecolorallocate($this->canvas, 230, 230, 240);
-        $text = 'qrcontest   2022   fantasmagoria   2022   ';
+        $bgTextColor = imagecolorallocate($this->canvas, 220, 235, 220);
+        $text = 'qrcontest   2024   fantasmagoria   2024   ';
 
         $offset = array_reduce(
                 str_split($code->data),
@@ -139,7 +139,7 @@ class QrGenerator
         $this->createCanvas();
         $this->drawBackgroundText($code);
 
-        $textColor = imagecolorallocate($this->canvas, 18, 49, 84);
+        $textColor = imagecolorallocate($this->canvas, 18, 75, 84);
 
         $qrCodeAsBase64 = $this->generateQrCode($code->collectUrl);
         $qrCodeAsString = base64_decode(substr($qrCodeAsBase64, strpos($qrCodeAsBase64, ',') + 1));
@@ -153,19 +153,31 @@ class QrGenerator
             ['red' => $brightness] = imagecolorsforindex($qrImage, $i);
 
             if ($brightness < 127) {
-                imagecolorset($qrImage, $i, 18, 49, 84);
+                imagecolorset($qrImage, $i, 18, 75, 84);
             }
         }
 
         imagecopy($this->canvas, $qrImage, $this->getCenter($this->width, $qrWidth), 350, 0, 0, $qrWidth, $qrHeight);
 
-        $logoImage = $this->convertToTransparentImage(imagecreatefrompng(resource_path('images/fantasmagoria.png')));
-        imagecopy($this->canvas, $logoImage, $this->getCenter($this->width, 1054), 100, 0, 0, 1054, 175);
+        $logoImage = $this->convertToTransparentImage(imagecreatefrompng(resource_path('images/14-fantasmagoria.png')));
 
-        $this->drawCenteredText($code->data, 80, 1410, $textColor);
-        $this->drawCenteredText('Zeskanuj kod i weź udział w konkursie!', 40, 1510, $textColor);
-        $this->drawCenteredText('Skanować możesz nie? Problem żaden to!', 25, 1595, $textColor);
-        $this->drawCenteredText('Na ' . env('FRONTEND_URL') . ' wejdź i kod powyższy wpisz.', 25, 1640, $textColor);
+        // Denoising. Because PHP. Don't ask why, don't know either.
+        for ($i = 0; $i < imagecolorstotal($logoImage); $i++) {
+            ['green' => $brightness] = imagecolorsforindex($logoImage, $i);
+
+            if ($brightness > 10) {
+                imagecolorset($logoImage, $i, 18, 75, 84);
+            }
+        }
+
+        imagecopy($this->canvas, $logoImage, $this->getCenter($this->width, 1054), 100, 0, 0, 1054, 180);
+
+        $this->drawCenteredText($code->data, 80, 1385, $textColor);
+        $this->drawCenteredText('Zeskanuj kod i weź udział w konkursie!', 40, 1480, $textColor);
+        $this->drawCenteredText('Do wzięcia udziału w QrContest nie potrzebujesz skanera.', 25, 1540, $textColor);
+        $this->drawCenteredText('Wejdź na tę stronę internetową i dołącz do zabawy:', 25, 1590, $textColor);
+        $this->drawCenteredText(env('FRONTEND_URL'), 40, 1660, $textColor);
+        imagefilledrectangle($this->canvas, 320, 1672, $this->width - 320, 1677, $textColor);
 
         imagedestroy($logoImage);
         imagedestroy($qrImage);
