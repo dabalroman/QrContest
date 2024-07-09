@@ -130,14 +130,13 @@ class QrGenerator
         }
     }
 
-    /**
-     * @param Code $code
-     * @return resource
-     */
-    public function generate(Code $code)
+    public function generate(Code $code, bool $withBackground = true)
     {
         $this->createCanvas();
-        $this->drawBackgroundText($code);
+
+        if($withBackground) {
+            $this->drawBackgroundText($code);
+        }
 
         $textColor = imagecolorallocate($this->canvas, 18, 75, 84);
 

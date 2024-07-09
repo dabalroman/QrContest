@@ -6,13 +6,17 @@ use App\Http\Controllers\API\CodeController;
 use App\Http\Controllers\API\CollectCodeController;
 use App\Http\Controllers\API\SettingsController;
 use App\Http\Controllers\API\StandingsController;
-use App\Http\Controllers\API\TestController;
+use App\Http\Controllers\API\QrGeneratorController;
 use App\Http\Controllers\API\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::resource('test', TestController::class);
+
+Route::get('/qr_generator', [QrGeneratorController::class, 'index']);
+Route::post('/qr_generator', [QrGeneratorController::class, 'store']);
+Route::delete('/qr_generator', [QrGeneratorController::class, 'destroy']);
+
 Route::resource('settings', SettingsController::class)->except('update');
 
 Route::group(
