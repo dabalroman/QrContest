@@ -8,6 +8,7 @@ use App\Models\Code;
 use chillerlan\QRCode\QRCode;
 use chillerlan\QRCode\QROptions;
 
+
 class QrGenerator
 {
     private string $font;
@@ -57,14 +58,14 @@ class QrGenerator
         imagefill($this->canvas, 0, 0, $bgColor);
     }
 
-    private function drawCenteredText(string $text, int $size, int $y, int $color): void
+    private function drawCenteredText(string $text, int $size, int $y, int $color, int $xOverride = 0): void
     {
         $textWidth = imagettfbbox($size, 0, $this->font, $text)[2];
         imagettftext(
             $this->canvas,
             $size,
             0,
-            $this->getCenter($this->width, $textWidth),
+            $xOverride ?: $this->getCenter($this->width, $textWidth),
             $y,
             $color,
             $this->font,
@@ -103,10 +104,10 @@ class QrGenerator
         return $imageProxy;
     }
 
-    protected function drawBackgroundText(Code $code): void
+    protected function drawBackgroundText(Code $code, Color $color): void
     {
-        $bgTextColor = imagecolorallocate($this->canvas, 220, 235, 220);
-        $text = 'qrcontest   2024   fantasmagoria   2024   ';
+        $bgTextColor = imagecolorallocate($this->canvas, $color->red, $color->green, $color->blue);
+        $text = 'QrContest   2025   Fantasmagoria   2025   ';
 
         $offset = array_reduce(
                 str_split($code->data),
@@ -132,13 +133,20 @@ class QrGenerator
 
     public function generate(Code $code, bool $withBackground = true)
     {
+        $baseColor = (new Color(175, 134, 16))->multiply(0.8);
+        $bgColor = (new Color(255, 217, 171))->multiply(1.05);
+        
+        $qrCodeXPosition = 570;
+        $textXPosition = 400;
+        $logoPositon = 40;
+        
         $this->createCanvas();
 
         if($withBackground) {
-            $this->drawBackgroundText($code);
+            $this->drawBackgroundText($code, $bgColor);
         }
 
-        $textColor = imagecolorallocate($this->canvas, 18, 75, 84);
+        $textColor = imagecolorallocate($this->canvas, $baseColor->red, $baseColor->green, $baseColor->blue);
 
         $qrCodeAsBase64 = $this->generateQrCode($code->collectUrl);
         $qrCodeAsString = base64_decode(substr($qrCodeAsBase64, strpos($qrCodeAsBase64, ',') + 1));
@@ -152,33 +160,54 @@ class QrGenerator
             ['red' => $brightness] = imagecolorsforindex($qrImage, $i);
 
             if ($brightness < 127) {
-                imagecolorset($qrImage, $i, 18, 75, 84);
+                imagecolorset($qrImage, $i, $baseColor->red, $baseColor->green, $baseColor->blue);
             }
         }
 
-        imagecopy($this->canvas, $qrImage, $this->getCenter($this->width, $qrWidth), 350, 0, 0, $qrWidth, $qrHeight);
+        imagecopy($this->canvas, $qrImage, 180, $qrCodeXPosition, 0, 0, $qrWidth, $qrHeight);
 
-        $logoImage = $this->convertToTransparentImage(imagecreatefrompng(resource_path('images/14-fantasmagoria.png')));
+        
+        
+        
+//        $fantasmagoriaLogo = $this->convertToTransparentImage(imagecreatefrompng(resource_path('images/15-fantasmagoria.png')));
+//
+//        // Denoising. Because PHP. Don't ask why, don't know either.
+//        for ($i = 0; $i < imagecolorstotal($fantasmagoriaLogo); $i++) {
+//            ['green' => $brightness] = imagecolorsforindex($fantasmagoriaLogo, $i);
+//
+//            if ($brightness > 10) {
+//                imagecolorset($fantasmagoriaLogo, $i, $baseColor->red, $baseColor->green, $baseColor->blue);
+//            }
+//        }
+//
+//        imagescale($this->canvas, $qrWidth, $qrHeight);
+//        imagecopy($this->canvas, $fantasmagoriaLogo, $this->getCenter($this->width, 390), $qrCodeXPosition - 10, 0, 0, 1200, 390);
+
+        
+        
+        
+        $qrContextLogo = $this->convertToTransparentImage(imagecreatefrompng(resource_path('images/Logo.png')));
 
         // Denoising. Because PHP. Don't ask why, don't know either.
-        for ($i = 0; $i < imagecolorstotal($logoImage); $i++) {
-            ['green' => $brightness] = imagecolorsforindex($logoImage, $i);
+        for ($i = 0; $i < imagecolorstotal($qrContextLogo); $i++) {
+            ['green' => $brightness] = imagecolorsforindex($qrContextLogo, $i);
 
             if ($brightness > 10) {
-                imagecolorset($logoImage, $i, 18, 75, 84);
+                imagecolorset($qrContextLogo, $i, $baseColor->red, $baseColor->green, $baseColor->blue);
             }
         }
 
-        imagecopy($this->canvas, $logoImage, $this->getCenter($this->width, 1054), 100, 0, 0, 1054, 180);
+        imagecopy($this->canvas, $qrContextLogo, $this->getCenter($this->width, 1054), $logoPositon, 0, 0, 1054, 240);
 
-        $this->drawCenteredText($code->data, 80, 1385, $textColor);
-        $this->drawCenteredText('Zeskanuj kod i weź udział w konkursie!', 40, 1480, $textColor);
-        $this->drawCenteredText('Do wzięcia udziału w QrContest nie potrzebujesz skanera.', 25, 1540, $textColor);
-        $this->drawCenteredText('Wejdź na tę stronę internetową i dołącz do zabawy:', 25, 1590, $textColor);
-        $this->drawCenteredText(env('FRONTEND_URL'), 40, 1660, $textColor);
-        imagefilledrectangle($this->canvas, 320, 1672, $this->width - 320, 1677, $textColor);
+        
+        
+        
+        $this->drawCenteredText($code->data, 90, $qrCodeXPosition + 1030, $textColor);
+        $this->drawCenteredText('Zeskanuj kod i weź udział w konkursie!', 46, $textXPosition, $textColor);
+        $this->drawCenteredText('Lub dołącz do zabawy na stronie ' . env('FRONTEND_URL'), 32, $textXPosition + 60, $textColor);
+        imagefilledrectangle($this->canvas, 800, $textXPosition + 72, 1120, $textXPosition + 78, $textColor);
 
-        imagedestroy($logoImage);
+//        imagedestroy($fantasmagoriaLogo);
         imagedestroy($qrImage);
 
         return $this->canvas;

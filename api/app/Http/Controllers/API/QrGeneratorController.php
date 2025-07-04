@@ -17,6 +17,7 @@ class QrGeneratorController extends Controller
         for ($i = 0; $i < 4; $i++) {
             $code = new Code();
             $code->data = Code::generateRandomData();
+//            $code->data = "FANTASMAGORIA";
             $codes[] = $code;
         }
 
@@ -31,12 +32,12 @@ class QrGeneratorController extends Controller
         }
 
         // Create clean QR codes.
-        foreach ($codes as $code) {
-            $image = $qrGenerator->generate($code, false);
-
-            imagepng($image, storage_path('app/codes/clean/') . "$code->data.png", 5);
-            imagedestroy($image);
-        }
+//        foreach ($codes as $code) {
+//            $image = $qrGenerator->generate($code, false);
+//
+//            imagepng($image, storage_path('app/codes/clean/') . "$code->data.png", 5);
+//            imagedestroy($image);
+//        }
 
         echo array_reduce($codes, static fn(string $carry, Code $code) => $carry . "'" . $code->data . "', ", '');
     }
